@@ -22,5 +22,7 @@
         public int NumberOfSeats { get; set; }
         public string BagageType { get; set; }
         public int NumberOfBagageItems { get; set; }
+
+        public string UserName { get; set; } //Test - Login
     }
 }

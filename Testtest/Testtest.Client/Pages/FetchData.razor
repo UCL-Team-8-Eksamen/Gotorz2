@@ -1,0 +1,131 @@
+﻿@* Test til login  - TODO navneændring *@
+@page "/fetchdata"
+@rendermode InteractiveAuto
+@inject IJSRuntime jsr
+@inject NavigationManager nav
+
+<PageTitle>FetchData</PageTitle>
+
+<UserComponent></UserComponent>
+
+<h1>Travels</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+@if (string.IsNullOrEmpty(userdata))
+{
+	<p><a href="/login">LOGIN TO ACCESS THIS DATA</a></p>
+}
+else
+{
+	if (travels == null)
+	{
+		<p><em>Loading...</em></p>
+	}
+	else
+	{
+		<p><a href="javascript:;" @onclick="GetTravels">Travels</a></p>
+		<table class="table">
+			<thead>
+				<tr>
+
+@* 					DepartureTime = date,
+					NumberOfBagageItems = rng.Next(1, 15),
+					ArrivalCountry = ArrivalCountries[rng.Next(ArrivalCountries.Length)],
+					UserName = User.Identity?.Name ?? string.Empty *@
+
+					<th>DepartureTime</th>
+					<th>NumberOfBagageItems</th>
+					<th>ArrivalCountry</th>
+					<th>User</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var travel in travels)
+				{
+					<tr>
+						<td>@travel.DepartureTime.ToShortDateString()</td>
+						<td>@travel.NumberOfBagageItems</td>
+						<td>@travel.ArrivalCountry</td>
+						<td>@travel.UserName</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+}
+
+@code {
+
+	private List<Travel> travels;
+	string userdata;
+
+	private async Task<string> GetJWT()
+	{
+		userdata = await jsr.InvokeAsync<string>("localStorage.getItem", "user").ConfigureAwait(false);
+		if (!string.IsNullOrWhiteSpace(userdata))
+		{
+			var dataArray = userdata.Split(';', 2);
+			if (dataArray.Length == 2)
+				return dataArray[1];
+		}
+		return null;
+	}
+
+	private async Task GetTravels()
+	{
+		try
+		{
+			using(HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
+			{
+
+				var requestMsg = new HttpRequestMessage(HttpMethod.Get, $"/api/travel/{DateTime.Now.ToString("yyyy-MM-dd")}");
+				requestMsg.Headers.Add("Authorization", "Bearer " + await GetJWT());
+				var response = await Http.SendAsync(requestMsg);
+				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) // NOTE: THEN TOKEN HAS EXPIRED
+				{
+					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
+					userdata = null;
+				}
+				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+					travel = null;
+				else if (response.IsSuccessStatusCode)
+				{
+					var travel = await response.Content.ReadFromJsonAsync<Travel>();
+					travels.Clear();
+					travels.Add(travel);
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		try
+		{
+			using(HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
+			{
+				var requestMsg = new HttpRequestMessage(HttpMethod.Get, "/api/travel");
+				requestMsg.Headers.Add("Authorization", "Bearer " + await GetJWT());
+				var response = await Http.SendAsync(requestMsg);
+				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) // NOTE: THEN TOKEN HAS EXPIRED
+				{
+					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
+					userdata = null;
+				}
+				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+					travels = null;
+				else if (response.IsSuccessStatusCode)
+					travels = await response.Content.ReadFromJsonAsync<List<Travel>>();
+			}
+			catch (Exception ex)
+			{
+				string err = ex.Message;
+			}
+		}
+	}
+}
