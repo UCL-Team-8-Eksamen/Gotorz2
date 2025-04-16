@@ -1,5 +1,5 @@
 ﻿@inject IJSRuntime jsr
-@rendermode InteractiveAuto
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <p>
 	@if (string.IsNullOrEmpty(username))

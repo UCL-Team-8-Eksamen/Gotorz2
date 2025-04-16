@@ -1,5 +1,5 @@
 ﻿@page "/fetchdata"
-@rendermode InteractiveAuto
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 @inject IJSRuntime jsr
 @inject NavigationManager nav
 @using Testtest.Client.Models
