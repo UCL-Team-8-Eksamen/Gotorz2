@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Gotorz2.Client\Gotorz2.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.4" />
   </ItemGroup>
 
 </Project>

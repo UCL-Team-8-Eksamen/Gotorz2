@@ -51,6 +51,13 @@ else
 	app.UseHsts();
 }
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapBlazorHub();
+    endpoints.MapFallbackToPage("/_Host");
+    endpoints.MapHub<ChatHub>(ChatHub.HubUrl);
+});
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
