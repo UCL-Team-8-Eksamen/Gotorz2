@@ -3,12 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\usercomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\usercomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\fetchtraveldata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\fetchtraveldata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\onetwothree.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\onetwothree.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\usercomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\usercomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\logout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -19,28 +47,8 @@
       "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\register.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\fetchtraveldata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\fetchtraveldata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\models\\authmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -55,20 +63,12 @@
       "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\controllers\\travelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest\\userdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A8E3DEA3-1119-408C-A5DC-95CEB7499759}|Testtest\\Testtest.csproj|solutionrelative:testtest\\userdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\services\\travelapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\services\\travelapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|solutionrelative:testtest.client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67635B01-EDF8-4C58-9AD8-03F120EDEBF4}|Testtest.Client\\Testtest.Client.csproj|c:\\users\\karga\\desktop\\lk\\gotorz2\\testtest\\testtest.client\\testtest.client.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -81,8 +81,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 268,
-          "SelectedChildIndex": 6,
+          "DockedWidth": 173,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -91,93 +91,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "OneTwoThree.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\OneTwoThree.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\OneTwoThree.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\OneTwoThree.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\OneTwoThree.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-14T07:32:34.482Z",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Program.cs",
+              "RelativeDocumentMoniker": "Testtest.Client\\Program.cs",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Program.cs",
+              "RelativeToolTip": "Testtest.Client\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T00:16:09.175Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Counter.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Counter.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Counter.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Counter.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\Counter.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-14T07:58:43.925Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Logout.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Logout.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Logout.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Logout.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\Logout.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-14T07:05:01.546Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FetchTravelData.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\FetchTravelData.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\FetchTravelData.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\FetchTravelData.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\FetchTravelData.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T00:58:53.05Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AuthModel.cs",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Models\\AuthModel.cs",
-              "RelativeDocumentMoniker": "Testtest.Client\\Models\\AuthModel.cs",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Models\\AuthModel.cs",
-              "RelativeToolTip": "Testtest.Client\\Models\\AuthModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-14T07:03:23.863Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserComponent.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\UserComponent.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\UserComponent.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\UserComponent.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\UserComponent.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAjwBgAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-14T07:06:02.529Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TravelController.cs",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\TravelController.cs",
-              "RelativeDocumentMoniker": "Testtest\\Controllers\\TravelController.cs",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\TravelController.cs",
-              "RelativeToolTip": "Testtest\\Controllers\\TravelController.cs",
-              "ViewState": "AQIAABIAAAAAAAAAAAA9wCoAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-14T07:09:29.213Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Login.razor",
               "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Login.razor",
               "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Login.razor",
@@ -190,6 +116,126 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "FetchTravelData.razor",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\FetchTravelData.razor",
+              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\FetchTravelData.razor",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\FetchTravelData.razor",
+              "RelativeToolTip": "Testtest.Client\\Pages\\FetchTravelData.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-07T00:58:53.05Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Program.cs",
+              "RelativeDocumentMoniker": "Testtest\\Program.cs",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Program.cs",
+              "RelativeToolTip": "Testtest\\Program.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAQwEYAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T00:15:16.007Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Testtest\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Testtest\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-22T07:05:00.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AuthModel.cs",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Models\\AuthModel.cs",
+              "RelativeDocumentMoniker": "Testtest.Client\\Models\\AuthModel.cs",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Models\\AuthModel.cs",
+              "RelativeToolTip": "Testtest.Client\\Models\\AuthModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T07:03:23.863Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OneTwoThree.razor",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\OneTwoThree.razor",
+              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\OneTwoThree.razor",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\OneTwoThree.razor",
+              "RelativeToolTip": "Testtest.Client\\Pages\\OneTwoThree.razor",
+              "ViewState": "AQIAADEAAAAAAAAAAAAjwFAAAABIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-14T07:32:34.482Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Testtest\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Testtest\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACoAAABoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T07:08:51.005Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserComponent.razor",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\UserComponent.razor",
+              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\UserComponent.razor",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\UserComponent.razor",
+              "RelativeToolTip": "Testtest.Client\\Pages\\UserComponent.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-14T07:06:02.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "TravelController.cs",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\TravelController.cs",
+              "RelativeDocumentMoniker": "Testtest\\Controllers\\TravelController.cs",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\TravelController.cs",
+              "RelativeToolTip": "Testtest\\Controllers\\TravelController.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAA9wCoAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T07:09:29.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Counter.razor",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Counter.razor",
+              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Counter.razor",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Counter.razor",
+              "RelativeToolTip": "Testtest.Client\\Pages\\Counter.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-14T07:58:43.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Logout.razor",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Logout.razor",
+              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Logout.razor",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Logout.razor",
+              "RelativeToolTip": "Testtest.Client\\Pages\\Logout.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-14T07:05:01.546Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "Register.razor",
               "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Register.razor",
               "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Register.razor",
@@ -201,7 +247,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Travel.cs",
               "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Models\\Travel.cs",
               "RelativeDocumentMoniker": "Testtest.Client\\Models\\Travel.cs",
@@ -213,55 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Home.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Home.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Home.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\Home.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T01:18:03.319Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Weather.razor",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Weather.razor",
-              "RelativeDocumentMoniker": "Testtest.Client\\Pages\\Weather.razor",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Pages\\Weather.razor",
-              "RelativeToolTip": "Testtest.Client\\Pages\\Weather.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-14T07:35:54.885Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Testtest\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Testtest\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAkwDMAAABAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-14T07:08:51.005Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Program.cs",
-              "RelativeDocumentMoniker": "Testtest\\Program.cs",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Program.cs",
-              "RelativeToolTip": "Testtest\\Program.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAuwEYAAAAKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T00:15:16.007Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "UserDatabase.cs",
               "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\UserDatabase.cs",
               "RelativeDocumentMoniker": "Testtest\\UserDatabase.cs",
@@ -273,7 +271,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "TravelApiService.cs",
               "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Services\\TravelApiService.cs",
               "RelativeDocumentMoniker": "Testtest.Client\\Services\\TravelApiService.cs",
@@ -294,28 +292,29 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-04-07T00:50:22.721Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Program.cs",
-              "RelativeDocumentMoniker": "Testtest.Client\\Program.cs",
-              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest.Client\\Program.cs",
-              "RelativeToolTip": "Testtest.Client\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T00:16:09.175Z"
             }
           ]
         },
         {
-          "DockedWidth": 59,
-          "SelectedChildIndex": -1,
+          "DockedWidth": 154,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.razor",
+              "DocumentMoniker": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Components\\App.razor",
+              "RelativeDocumentMoniker": "Testtest\\Components\\App.razor",
+              "ToolTip": "C:\\Users\\karga\\Desktop\\LK\\Gotorz2\\Testtest\\Testtest\\Components\\App.razor",
+              "RelativeToolTip": "Testtest\\Components\\App.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-22T07:30:13.821Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -2,22 +2,26 @@
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 @inject IJSRuntime jsr
 @inject NavigationManager nav
-@using Testtest.Client.Models
+@using Gotorz2.Client.Models
+
+<PageTitle>FetchData</PageTitle>
 
 <UserComponent></UserComponent>
+<h1>Weather forecast</h1>
 
+<p>This component demonstrates fetching data from the server.</p>
 @if (string.IsNullOrEmpty(userdata))
 {
 	<p><a href="/login">LOGIN TO ACCESS THIS DATA</a></p>
 }
 else
 {
-	<p>Du er logget ind!</p>
+	<p>Hello!</p>
 }
 
 @code {
 
-	private List<Travel> travels;
+	private List<Travel> forecasts;
 	string userdata;
 
 	private async Task<string> GetJWT()
@@ -32,14 +36,14 @@ else
 		return null;
 	}
 
-	private async Task GetTravels()
+	private async Task GetTodaysForecast()
 	{
 		try
 		{
 			using (HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
 			{
 
-				var requestMsg = new HttpRequestMessage(HttpMethod.Get, $"/api/travel/{DateTime.Now.ToString("yyyy-MM-dd")}");
+				var requestMsg = new HttpRequestMessage(HttpMethod.Get, $"/api/weatherforecast/{DateTime.Now.ToString("yyyy-MM-dd")}");
 				requestMsg.Headers.Add("Authorization", "Bearer " + await GetJWT());
 				var response = await Http.SendAsync(requestMsg);
 				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) // NOTE: THEN TOKEN HAS EXPIRED
@@ -47,13 +51,13 @@ else
 					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
 					userdata = null;
 				}
-				// else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-				// 	travel = null;
+				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+					forecasts = null;
 				else if (response.IsSuccessStatusCode)
 				{
-					var travel = await response.Content.ReadFromJsonAsync<Travel>();
-					travels.Clear();
-					travels.Add(travel);
+					var forecast = await response.Content.ReadFromJsonAsync<Travel>();
+					forecasts.Clear();
+					forecasts.Add(forecast);
 				}
 			}
 		}
@@ -61,8 +65,8 @@ else
 		{
 
 		}
-	}
 
+	}
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -71,17 +75,18 @@ else
 		{
 			using (HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
 			{
-				var requestMsg = new HttpRequestMessage(HttpMethod.Get, "/api/travel");
+				var requestMsg = new HttpRequestMessage(HttpMethod.Get, "/api/weatherforecast");
+				requestMsg.Headers.Add("Authorization", "Bearer " + await GetJWT());
 				var response = await Http.SendAsync(requestMsg);
-				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) // NOTE: THEN TOKEN HAS EXPIRED
 				{
 					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
 					userdata = null;
 				}
 				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-					travels = null;
+					forecasts = null;
 				else if (response.IsSuccessStatusCode)
-					travels = await response.Content.ReadFromJsonAsync<List<Travel>>();
+					forecasts = await response.Content.ReadFromJsonAsync<List<Travel>>();
 			}
 		}
 		catch (Exception ex)

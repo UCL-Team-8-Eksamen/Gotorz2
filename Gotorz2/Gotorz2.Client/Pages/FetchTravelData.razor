@@ -1,0 +1,40 @@
+﻿@page "/fetchTraveldata"
+@rendermode InteractiveAuto
+@using Gotorz2.Client.Services
+@using Gotorz2.Client.Models
+@using System.Net.Http.Json
+@inject TravelApiService TravelApiService
+
+<h3>Hent Data</h3>
+
+@if (travels == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var item in travels)
+        {
+            <li>@item.TransportNumber</li>  <!-- Udskift med relevante felter -->
+        }
+    </ul>
+}
+
+@code {
+    private List<Travel> travels;
+    private string error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            travels = await TravelApiService.GetTravelsAsync(); // Assign to the class-level field
+        }
+        catch (Exception ex)
+        {
+            error = "Der opstod en fejl under hentning af data: " + ex.Message;
+        }
+    }
+}
+
