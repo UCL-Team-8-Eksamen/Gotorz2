@@ -1,0 +1,48 @@
+﻿@page "/fetchaccomodations"
+@using Gotorz2.Client.Models
+@using Gotorz2.Client.Services
+@inject AccomodationApiService AccomodationApiService
+
+<h3>Accomodations</h3>
+
+@if (accomodations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Price</th>
+                <th>Stars</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var acc in accomodations)
+            {
+                <tr>
+                    <td>@acc.AccomodationName</td>
+                    <td>@acc.City</td>
+                    <td>@acc.PricePerNight</td>
+                    <td>@acc.StarRating</td>
+                    <td>@acc.CheckInDate.ToShortDateString()</td>
+                    <td>@acc.CheckOutDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Accomodation> accomodations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        accomodations = await AccomodationApiService.GetAccomodationsAsync();
+    }
+}

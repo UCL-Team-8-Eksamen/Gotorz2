@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Gotorz2.Client.Services;
+using Gotorz2.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -8,5 +9,9 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 
 // Register TravelApiService
 builder.Services.AddScoped<TravelApiService>();
+
+builder.Services.AddScoped<AccomodationApiService>();
+
+builder.Services.AddScoped<AmadeusHotelService>();
 
 await builder.Build().RunAsync();

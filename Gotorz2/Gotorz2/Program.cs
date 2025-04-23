@@ -9,13 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-	.AddInteractiveServerComponents()
-	.AddInteractiveWebAssemblyComponents();
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddHttpClient<TravelApiService>();
+builder.Services.AddHttpClient<AccomodationApiService>();
+builder.Services.AddHttpClient<AmadeusHotelService>();
+
 
 //Register TravelApiService
 builder.Services.AddScoped<TravelApiService>();
+builder.Services.AddScoped<AccomodationApiService>();
+builder.Services.AddScoped<AmadeusHotelService>();
+
 
 //Login
 builder.Services.AddControllers();

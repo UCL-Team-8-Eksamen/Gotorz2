@@ -1,0 +1,24 @@
+﻿@page "/amadeus-hotels"
+@using Gotorz2.Client.Models
+@using Gotorz2.Client.Services
+@inject AmadeusHotelService HotelService
+
+<h3>Amadeus Hotel Offers</h3>
+
+@if (offersJson == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <pre>@offersJson</pre> <!-- Later: Parse and display nicely -->
+}
+
+@code {
+    private string offersJson;
+
+    protected override async Task OnInitializedAsync()
+    {
+        offersJson = await HotelService.SearchHotelOffersAsync("CPH", "2025-06-01", "2025-06-05");
+    }
+}
