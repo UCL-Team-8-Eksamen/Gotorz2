@@ -1,6 +1,6 @@
-using Testtest;
-using Testtest.Client.Services;
-using Testtest.Components;
+using Gotorz2;
+using Gotorz2.Client.Services;
+using Gotorz2.Components;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -62,7 +62,7 @@ app.UseAuthentication(); //Login
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode()
 	.AddInteractiveWebAssemblyRenderMode()
-	.AddAdditionalAssemblies(typeof(Testtest.Client._Imports).Assembly);
+	.AddAdditionalAssemblies(typeof(Gotorz2.Client._Imports).Assembly);
 
 //Login
 app.MapControllers();

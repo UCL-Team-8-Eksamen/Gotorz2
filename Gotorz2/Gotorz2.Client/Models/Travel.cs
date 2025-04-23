@@ -1,4 +1,4 @@
-﻿namespace Testtest.Client.Models
+﻿namespace Gotorz2.Client.Models
 {
 	public class Travel
 	{

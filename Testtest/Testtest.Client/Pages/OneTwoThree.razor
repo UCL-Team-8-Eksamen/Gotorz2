@@ -1,0 +1,92 @@
+﻿@page "/fetchdata"
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+@inject IJSRuntime jsr
+@inject NavigationManager nav
+@using Testtest.Client.Models
+
+<UserComponent></UserComponent>
+
+@if (string.IsNullOrEmpty(userdata))
+{
+	<p><a href="/login">LOGIN TO ACCESS THIS DATA</a></p>
+}
+else
+{
+	<p>Du er logget ind!</p>
+}
+
+@code {
+
+	private List<Travel> travels;
+	string userdata;
+
+	private async Task<string> GetJWT()
+	{
+		userdata = await jsr.InvokeAsync<string>("localStorage.getItem", "user").ConfigureAwait(false);
+		if (!string.IsNullOrWhiteSpace(userdata))
+		{
+			var dataArray = userdata.Split(';', 2);
+			if (dataArray.Length == 2)
+				return dataArray[1];
+		}
+		return null;
+	}
+
+	private async Task GetTravels()
+	{
+		try
+		{
+			using (HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
+			{
+
+				var requestMsg = new HttpRequestMessage(HttpMethod.Get, $"/api/travel/{DateTime.Now.ToString("yyyy-MM-dd")}");
+				requestMsg.Headers.Add("Authorization", "Bearer " + await GetJWT());
+				var response = await Http.SendAsync(requestMsg);
+				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) // NOTE: THEN TOKEN HAS EXPIRED
+				{
+					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
+					userdata = null;
+				}
+				// else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+				// 	travel = null;
+				else if (response.IsSuccessStatusCode)
+				{
+					var travel = await response.Content.ReadFromJsonAsync<Travel>();
+					travels.Clear();
+					travels.Add(travel);
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+
+		}
+	}
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		try
+		{
+			using (HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
+			{
+				var requestMsg = new HttpRequestMessage(HttpMethod.Get, "/api/travel");
+				var response = await Http.SendAsync(requestMsg);
+				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+				{
+					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
+					userdata = null;
+				}
+				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+					travels = null;
+				else if (response.IsSuccessStatusCode)
+					travels = await response.Content.ReadFromJsonAsync<List<Travel>>();
+			}
+		}
+		catch (Exception ex)
+		{
+			string err = ex.Message;
+		}
+	}
+}
