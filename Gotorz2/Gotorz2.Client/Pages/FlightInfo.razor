@@ -1,0 +1,103 @@
+﻿@page "/flightinfo"
+@using Testtest.Client.Services
+@using Testtest.Client.Models
+@using System.Net.Http.Json
+
+@inject TravelApiService TravelApiService
+
+<h3>Søg efter fly</h3>
+
+<!-- Formular for at vælge både afrejse og retur-dato -->
+<div>
+    <label for="origin">Afrejsested</label>
+    <input type="text" id="origin" @bind="origin" placeholder="Skriv afrejseby" />
+
+    <label for="destination">Destination</label>
+    <input type="text" id="destination" @bind="destination" placeholder="Skriv destination" />
+
+    <label for="departureDate">Afrejsedato</label>
+    <input type="date" id="departureDate" @bind="departureDate" />
+
+    <label for="returnDate">Retur-dato</label>
+    <input type="date" id="returnDate" @bind="returnDate" />
+
+    <button @onclick="SearchFlights">Søg</button>
+</div>
+
+<!-- Hvis flyvningerne ikke er fundet eller vi venter på data -->
+@if (flights == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (flights.Count == 0)
+{
+    <p>No flights found.</p>
+}
+else
+{
+    <!-- Vis flyvninger i tabel -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Departure Airport</th>
+                <th>Arrival Airport</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Duration</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in flights)
+            {
+                <tr>
+                    <td>@flight.Outbound.DepartureAirport</td>
+                    <td>@flight.Outbound.ArrivalAirport</td>
+                    <td>@flight.Outbound.DepartureTime</td>
+                    <td>@flight.Outbound.ArrivalTime</td>
+                    <td>@flight.Outbound.Duration</td>
+                    <td>@flight.Outbound.Price</td>
+                </tr>
+                <tr>
+                    <td>@flight.Inbound.DepartureAirport</td>
+                    <td>@flight.Inbound.ArrivalAirport</td>
+                    <td>@flight.Inbound.DepartureTime</td>
+                    <td>@flight.Inbound.ArrivalTime</td>
+                    <td>@flight.Inbound.Duration</td>
+                    <td>@flight.Inbound.Price</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <strong>Total Price: @flight.TotalPrice</strong>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string origin = "CPH";   // Default værdi, kan ændres af brugeren
+    private string destination = "NYC";   // Default værdi, kan ændres af brugeren
+    private DateTime departureDate = DateTime.Parse("2025-08-01");   // Default værdi, kan ændres af brugeren
+    private DateTime returnDate = DateTime.Parse("2025-08-15");      // Default værdi, kan ændres af brugeren
+
+    private List<RoundTripFlight> flights;
+
+    private async Task SearchFlights()
+    {
+        // Sørg for at formatere datoerne korrekt som strings
+        string formattedDepartureDate = departureDate.ToString("yyyy-MM-dd");
+        string formattedReturnDate = returnDate.ToString("yyyy-MM-dd");
+
+        // Kald API'et med både afrejse- og retur-dato som formaterede strings
+        flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Hvis du ønsker at hente flyvninger ved initialisering (kan udelades eller tilpasses)
+        await SearchFlights();
+    }
+}
+

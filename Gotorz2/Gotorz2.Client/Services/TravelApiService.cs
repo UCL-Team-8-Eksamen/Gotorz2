@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Json;
-using Gotorz2.Client.Models;
 
 namespace Gotorz2.Client.Services
 {
@@ -15,19 +14,21 @@ namespace Gotorz2.Client.Services
 
 
         // Metode til at hente data fra API'et
-        public async Task<List<Travel>> GetTravelsAsync()
+        public async Task<List<RoundTripFlight>> GetFlightInfoAsync(string origin, string destination, string date, string returnDate)
         {
             try
             {
-                var travels = await _httpClient.GetFromJsonAsync<List<Travel>>("api/travels");
-                return travels ?? new List<Travel>();
+                var flights = await _httpClient.GetFromJsonAsync<List<RoundTripFlight>>(
+                    $"api/flights/search?origin={origin}&destination={destination}&date={date}&returnDate={returnDate}");
+                return flights ?? new List<RoundTripFlight>();
             }
             catch (Exception ex)
             {
-                // Håndter eventuelle fejl, som kan opstå under API kaldet
-                Console.WriteLine($"Error retrieving travels: {ex.Message}");
-                return new List<Travel>();
+                Console.WriteLine($"Error retrieving flights: {ex.Message}");
+                return new List<RoundTripFlight>();
             }
         }
+
+
     }
 }
