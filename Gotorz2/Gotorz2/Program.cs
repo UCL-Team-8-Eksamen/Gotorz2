@@ -5,6 +5,9 @@ using Gotorz2.Components;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
+using Microsoft.AspNetCore.ResponseCompression;
+using Gotorz2.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -37,7 +40,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 // Login
 
+builder.Services.AddSignalR();
+
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        ["application/octet-stream"]);
+});
+
 var app = builder.Build();
+
+//app.UseResponseCompression();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -67,5 +80,7 @@ app.MapRazorComponents<App>()
 //Login
 app.MapControllers();
 app.UseAuthorization();
+
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();
