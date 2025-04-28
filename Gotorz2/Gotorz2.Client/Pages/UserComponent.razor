@@ -13,23 +13,41 @@
 </p>
 
 @code {
-
 	private string username = string.Empty;
 	private System.Threading.Timer? timer;
+	private bool _disposed;
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 		timer = new System.Threading.Timer(async (object? stateInfo) =>
 		{
-			var userdata = await jsr.InvokeAsync<string>("localStorage.getItem", "user").ConfigureAwait(false) ?? string.Empty;
-			var temp = userdata.Split(';', 2)[0];
-			if (temp != username)
+			try
 			{
-				username = temp;
-				StateHasChanged();
-			}
-		}, new System.Threading.AutoResetEvent(false), 333, 333);
+				if (_disposed) return; // 👈 Stop hvis vi er disposed!
 
+				var userdata = await jsr.InvokeAsync<string>("localStorage.getItem", "user").ConfigureAwait(false) ?? string.Empty;
+				var temp = userdata.Split(';', 2)[0];
+				if (temp != username)
+				{
+					username = temp;
+					await InvokeAsync(StateHasChanged); // 👈 Korrekt måde at kalde StateHasChanged fra en anden tråd
+				}
+			}
+			catch (JSDisconnectedException)
+			{
+				// Circuit er død - gør ingenting
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Timer error: {ex.Message}");
+			}
+		}, null, 333, 333);
+	}
+
+	public void Dispose()
+	{
+		_disposed = true;
+		timer?.Dispose();
 	}
 }
