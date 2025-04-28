@@ -4,6 +4,7 @@
 @using Gotorz2.Client.Models
 @using System.Net.Http.Json
 @using System.Text.Json
+@inject NavigationManager NavigationManager
 
 @inject TravelApiService TravelApiService
 
@@ -50,6 +51,7 @@
                         <th>Arrival Time</th>
                         <th>Duration</th>
                         <th>Price</th>
+                        <th>Vælg Tur/Retur</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +64,8 @@
                             <td>@flight.Outbound.ArrivalTime</td>
                             <td>@flight.Outbound.Duration</td>
                             <td>@flight.Outbound.Price</td>
+                            <!-- Kun én knap per rejse, som vælger både ud- og returflyvning -->
+                            <td><button @onclick="() => SelectFlight(flight)">Vælg Tur/Retur</button></td>
                         </tr>
                         <tr>
                             <td>@flight.Inbound.DepartureAirport</td>
@@ -81,6 +85,34 @@
             </table>
         }
     </div>
+
+    <!-- Vist valgte fly-oplysninger -->
+    @if (selectedFlight != null)
+    {
+        <div class="selected-flight">
+            <h4>Valgt fly:</h4>
+            <p><strong>Outbound Flight:</strong></p>
+            <p>Departure Airport: @selectedFlight.Outbound.DepartureAirport</p>
+            <p>Arrival Airport: @selectedFlight.Outbound.ArrivalAirport</p>
+            <p>Departure Time: @selectedFlight.Outbound.DepartureTime</p>
+            <p>Arrival Time: @selectedFlight.Outbound.ArrivalTime</p>
+            <p>Duration: @selectedFlight.Outbound.Duration</p>
+            <p>Price: @selectedFlight.Outbound.Price</p>
+
+            <p><strong>Inbound Flight:</strong></p>
+            <p>Departure Airport: @selectedFlight.Inbound.DepartureAirport</p>
+            <p>Arrival Airport: @selectedFlight.Inbound.ArrivalAirport</p>
+            <p>Departure Time: @selectedFlight.Inbound.DepartureTime</p>
+            <p>Arrival Time: @selectedFlight.Inbound.ArrivalTime</p>
+            <p>Duration: @selectedFlight.Inbound.Duration</p>
+            <p>Price: @selectedFlight.Inbound.Price</p>
+
+            <p><strong>Total Price: @selectedFlight.TotalPrice</strong></p>
+
+            <!-- Fortsæt knap -->
+            <button @onclick="ContinueToHotelSelection">Fortsæt</button>
+        </div>
+    }
 </div>
 
 <style>
@@ -148,11 +180,13 @@
             background-color: #f4f4f4;
         }
 
-
-
+    .selected-flight {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
     }
 </style>
-
 
 @code {
     private string origin = "CPH";   // Default værdi, kan ændres af brugeren
@@ -161,6 +195,7 @@
     private DateTime returnDate = DateTime.Parse("2025-08-15");      // Default værdi, kan ændres af brugeren
 
     private List<RoundTripFlight> flights;
+    private RoundTripFlight selectedFlight;
 
     private async Task SearchFlights()
     {
@@ -170,6 +205,17 @@
 
         // Kald API'et med både afrejse- og retur-dato som formaterede strings
         flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
+    }
+
+    private void SelectFlight(RoundTripFlight flight)
+    {
+        selectedFlight = flight;
+    }
+
+    private void ContinueToHotelSelection()
+    {
+        // Naviger til hotel-siden
+        NavigationManager.NavigateTo("/hotelsearch");
     }
 
     protected override async Task OnInitializedAsync()
