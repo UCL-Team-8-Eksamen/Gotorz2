@@ -1,7 +1,6 @@
 using Gotorz2;
 using Gotorz2.Client.Services;
 using Gotorz2.Components;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -17,6 +16,8 @@ builder.Services.AddHttpClient<TravelApiService>();
 
 //Register TravelApiService
 builder.Services.AddScoped<TravelApiService>();
+//Register HotelApiService
+builder.Services.AddScoped<HotelApiService>();
 
 //Login
 builder.Services.AddControllers();
