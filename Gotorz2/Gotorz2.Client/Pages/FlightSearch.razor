@@ -1,0 +1,229 @@
+﻿@page "/flightsearch"
+@rendermode InteractiveAuto
+@using Gotorz2.Client.Services
+@using Gotorz2.Client.Models
+@using System.Net.Http.Json
+@using System.Text.Json
+@inject NavigationManager NavigationManager
+
+@inject TravelApiService TravelApiService
+
+<h3>Søg efter fly</h3>
+
+<div class="container">
+    <!-- Formularen til at vælge både afrejse og retur-dato -->
+    <div class="form-container">
+        <label for="origin">Afrejsested</label>
+        <input type="text" id="origin" @bind="origin" placeholder="Skriv afrejseby" />
+
+        <label for="destination">Destination</label>
+        <input type="text" id="destination" @bind="destination" placeholder="Skriv destination" />
+
+        <label for="departureDate">Afrejsedato</label>
+        <input type="date" id="departureDate" @bind="departureDate" />
+
+        <label for="returnDate">Retur-dato</label>
+        <input type="date" id="returnDate" @bind="returnDate" />
+
+        <button @onclick="SearchFlights">Søg</button>
+    </div>
+
+    <!-- Resultater af søgningen -->
+    <div class="results-container">
+        <!-- Hvis flyvningerne ikke er fundet eller vi venter på data -->
+        @if (flights == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (flights.Count == 0)
+        {
+            <p>No flights found.</p>
+        }
+        else
+        {
+            <!-- Vis flyvninger i tabel -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Departure Airport</th>
+                        <th>Arrival Airport</th>
+                        <th>Departure Time</th>
+                        <th>Arrival Time</th>
+                        <th>Duration</th>
+                        <th>Price</th>
+                        <th>Vælg Tur/Retur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flight in flights)
+                    {
+                        <tr>
+                            <td>@flight.Outbound.DepartureAirport</td>
+                            <td>@flight.Outbound.ArrivalAirport</td>
+                            <td>@flight.Outbound.DepartureTime</td>
+                            <td>@flight.Outbound.ArrivalTime</td>
+                            <td>@flight.Outbound.Duration</td>
+                            <td>@flight.Outbound.Price</td>
+                            <!-- Kun én knap per rejse, som vælger både ud- og returflyvning -->
+                            <td><button @onclick="() => SelectFlight(flight)">Vælg Tur/Retur</button></td>
+                        </tr>
+                        <tr>
+                            <td>@flight.Inbound.DepartureAirport</td>
+                            <td>@flight.Inbound.ArrivalAirport</td>
+                            <td>@flight.Inbound.DepartureTime</td>
+                            <td>@flight.Inbound.ArrivalTime</td>
+                            <td>@flight.Inbound.Duration</td>
+                            <td>@flight.Inbound.Price</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <strong>Total Price: @flight.TotalPrice</strong>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <!-- Vist valgte fly-oplysninger -->
+    @if (selectedFlight != null)
+    {
+        <div class="selected-flight">
+            <h4>Valgt fly:</h4>
+            <p><strong>Outbound Flight:</strong></p>
+            <p>Departure Airport: @selectedFlight.Outbound.DepartureAirport</p>
+            <p>Arrival Airport: @selectedFlight.Outbound.ArrivalAirport</p>
+            <p>Departure Time: @selectedFlight.Outbound.DepartureTime</p>
+            <p>Arrival Time: @selectedFlight.Outbound.ArrivalTime</p>
+            <p>Duration: @selectedFlight.Outbound.Duration</p>
+            <p>Price: @selectedFlight.Outbound.Price</p>
+
+            <p><strong>Inbound Flight:</strong></p>
+            <p>Departure Airport: @selectedFlight.Inbound.DepartureAirport</p>
+            <p>Arrival Airport: @selectedFlight.Inbound.ArrivalAirport</p>
+            <p>Departure Time: @selectedFlight.Inbound.DepartureTime</p>
+            <p>Arrival Time: @selectedFlight.Inbound.ArrivalTime</p>
+            <p>Duration: @selectedFlight.Inbound.Duration</p>
+            <p>Price: @selectedFlight.Inbound.Price</p>
+
+            <p><strong>Total Price: @selectedFlight.TotalPrice</strong></p>
+
+            <!-- Fortsæt knap -->
+            <button @onclick="ContinueToHotelSelection">Fortsæt</button>
+        </div>
+    }
+</div>
+
+<style>
+    /* Container for at placere formularen og resultaterne ved siden af hinanden */
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    /* Formularen til at vælge både afrejse og retur-dato */
+    .form-container {
+        width: 25%; /* Formularen fylder 1/4 af bredden */
+        padding: 10px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    /* Resultaterne af søgningen */
+    .results-container {
+        width: 75%; /* Resultaterne fylder 3/4 af bredden */
+        padding: 10px;
+    }
+
+    /* For at gøre tabellen pænere */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+        }
+
+    .selected-flight {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+</style>
+
+@code {
+    private string origin = "CPH";   // Default værdi, kan ændres af brugeren
+    private string destination = "NYC";   // Default værdi, kan ændres af brugeren
+    private DateTime departureDate = DateTime.Parse("2025-08-01");   // Default værdi, kan ændres af brugeren
+    private DateTime returnDate = DateTime.Parse("2025-08-15");      // Default værdi, kan ændres af brugeren
+
+    private List<RoundTripFlight> flights;
+    private RoundTripFlight selectedFlight;
+
+    private async Task SearchFlights()
+    {
+        // Sørg for at formatere datoerne korrekt som strings
+        string formattedDepartureDate = departureDate.ToString("yyyy-MM-dd");
+        string formattedReturnDate = returnDate.ToString("yyyy-MM-dd");
+
+        // Kald API'et med både afrejse- og retur-dato som formaterede strings
+        flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
+
+        Console.WriteLine("Kørt.");
+    }
+
+    private void SelectFlight(RoundTripFlight flight)
+    {
+        selectedFlight = flight;
+    }
+
+    private void ContinueToHotelSelection()
+    {
+        // Naviger til hotel-siden
+        NavigationManager.NavigateTo("/hotelsearch");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Hvis du ønsker at hente flyvninger ved initialisering (kan udelades eller tilpasses)
+        await SearchFlights();
+    }
+}
+

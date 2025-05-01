@@ -1,12 +1,18 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Gotorz2.Client.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-// Configure HttpClient to communicate with the API
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7023/") }); // Replace with your API URL
+// Brug HttpClientFactory korrekt!
+builder.Services.AddHttpClient<TravelApiService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7023/");
+});
 
-// Register TravelApiService
-builder.Services.AddScoped<TravelApiService>();
+// TILFØJ DETTE for HotelApiService
+builder.Services.AddHttpClient<HotelApiService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7023/"); // Brug samme base URL som TravelApiService
+});
 
 await builder.Build().RunAsync();
