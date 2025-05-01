@@ -205,8 +205,6 @@
 
         // Kald API'et med både afrejse- og retur-dato som formaterede strings
         flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
-
-        Console.WriteLine("Kørt.");
     }
 
     private void SelectFlight(RoundTripFlight flight)
