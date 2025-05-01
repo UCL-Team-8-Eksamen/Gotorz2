@@ -1,5 +1,72 @@
-﻿<h3>CreateTravelPackage</h3>
+﻿@page "/CreateTravelPackage"
+@rendermode InteractiveAuto
+@using Gotorz2.Client.Models
+@using Gotorz2.Client.Services
+@inject TravelPackageState TravelPackageState
+@inject TravelPackageService TravelPackageService
+@inject NavigationManager NavigationManager
+
+<h3>Opret Rejsepakke</h3>
+
+@if (TravelPackageState.SelectedFlight == null || TravelPackageState.SelectedHotel == null)
+{
+    <p class="text-danger">Du mangler at vælge både fly og hotel.</p>
+}
+else
+{
+    <div class="package-summary">
+        <h4>Valgt Fly</h4>
+        <p><strong>Ud:</strong> @TravelPackageState.SelectedFlight.Outbound.DepartureAirport → @TravelPackageState.SelectedFlight.Outbound.ArrivalAirport</p>
+        <p>Afrejse: @TravelPackageState.SelectedFlight.Outbound.DepartureTime</p>
+        <p>Pris: @TravelPackageState.SelectedFlight.Outbound.Price</p>
+
+        <p><strong>Retur:</strong> @TravelPackageState.SelectedFlight.Inbound.DepartureAirport → @TravelPackageState.SelectedFlight.Inbound.ArrivalAirport</p>
+        <p>Retur: @TravelPackageState.SelectedFlight.Inbound.DepartureTime</p>
+        <p>Pris: @TravelPackageState.SelectedFlight.Inbound.Price</p>
+
+        <h4>Valgt Hotel</h4>
+        <p><strong>Adresse:</strong> @TravelPackageState.SelectedHotel.address</p>
+        <p><strong>By:</strong> @TravelPackageState.SelectedHotel.city</p>
+        <p><strong>Land:</strong> @TravelPackageState.SelectedHotel.country</p>
+        <p><strong>Pris pr. nat:</strong> @TravelPackageState.SelectedHotel.pricePerNight</p>
+
+        <h4>Beskrivelse af rejsen</h4>
+        <textarea @bind="Description" rows="5" class="form-control" placeholder="Skriv f.eks. familieferie, forretningsrejse, sightseeing..."></textarea>
+
+        <button class="btn btn-success mt-3" @onclick="CreatePackageAsync">Create</button>
+    </div>
+}
 
 @code {
+    private string Description { get; set; } = "";
 
+    private async Task CreatePackageAsync()
+    {
+        var package = new TravelPackage
+            {
+                Flight = TravelPackageState.SelectedFlight,
+                Hotel = TravelPackageState.SelectedHotel,
+                Description = Description
+            };
+
+        try
+        {
+            await TravelPackageService.SaveTravelPackageAsync(package);
+            Console.WriteLine("Rejsepakke gemt!");
+
+            // Nulstil state
+            TravelPackageState.SelectedFlight = null;
+            TravelPackageState.SelectedHotel = null;
+            TravelPackageState.FlightSearchResults = null;
+            TravelPackageState.HotelSearchResults = null;
+
+            // Navigér evt. til en bekræftelsesside
+            NavigationManager.NavigateTo("/flightsearch");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Fejl ved gemning: {ex.Message}");
+        }
+    }
 }
+

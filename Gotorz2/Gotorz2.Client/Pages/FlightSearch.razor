@@ -5,7 +5,7 @@
 @using System.Net.Http.Json
 @using System.Text.Json
 @inject NavigationManager NavigationManager
-
+@inject TravelPackageState TravelPackageState
 @inject TravelApiService TravelApiService
 
 <h3>Søg efter fly</h3>
@@ -199,17 +199,23 @@
 
     private async Task SearchFlights()
     {
-        // Sørg for at formatere datoerne korrekt som strings
         string formattedDepartureDate = departureDate.ToString("yyyy-MM-dd");
         string formattedReturnDate = returnDate.ToString("yyyy-MM-dd");
 
-        // Kald API'et med både afrejse- og retur-dato som formaterede strings
         flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
+
+        // Gem søgningen i state
+        TravelPackageState.FlightOrigin = origin;
+        TravelPackageState.FlightDestination = destination;
+        TravelPackageState.FlightDepartureDate = departureDate;
+        TravelPackageState.FlightReturnDate = returnDate;
+        TravelPackageState.FlightSearchResults = flights;
     }
 
     private void SelectFlight(RoundTripFlight flight)
     {
         selectedFlight = flight;
+        TravelPackageState.SelectedFlight = selectedFlight; // Gem flyvningen i TravelPackageState
     }
 
     private void ContinueToHotelSelection()
@@ -220,8 +226,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Hvis du ønsker at hente flyvninger ved initialisering (kan udelades eller tilpasses)
-        await SearchFlights();
+        if (TravelPackageState.FlightSearchResults != null)
+        {
+            origin = TravelPackageState.FlightOrigin ?? "CPH";
+            destination = TravelPackageState.FlightDestination ?? "NYC";
+            departureDate = TravelPackageState.FlightDepartureDate ?? DateTime.Today;
+            returnDate = TravelPackageState.FlightReturnDate ?? DateTime.Today.AddDays(7);
+            flights = TravelPackageState.FlightSearchResults;
+        }
+        else
+        {
+            await SearchFlights(); // initial søgning, hvis ingen tidligere data
+        }
     }
 }
 

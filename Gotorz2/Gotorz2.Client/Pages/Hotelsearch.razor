@@ -3,80 +3,174 @@
 @using Gotorz2.Client.Models
 @using Gotorz2.Client.Services
 @using System.Net.Http.Json
-@using System.Text.Json
 @inject NavigationManager NavigationManager
 @inject HotelApiService HotelApiService
+@inject TravelPackageState TravelPackageState
 
-<h3 class="mt-4">Søg efter Hoteller</h3>
 
-<div class="container mt-3">
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label>By:</label>
-            <input type="text" @bind="City" class="form-control" placeholder="Indtast by (f.eks. CPH)" />
-        </div>
-        <div class="col-md-4">
-            <label>Check-in Dato:</label>
-            <input type="date" @bind-value="CheckInDate" class="form-control" />
-        </div>
-        <div class="col-md-4">
-            <label>Check-out Dato:</label>
-            <input type="date" @bind-value="CheckOutDate" class="form-control" />
-        </div>
+<h3>Søg efter hoteller</h3>
+
+<div class="container">
+    <!-- Formular til søgning -->
+    <div class="form-container">
+        <label>By</label>
+        <input type="text" @bind="City" placeholder="F.eks. CPH" />
+
+        <label>Check-in Dato</label>
+        <input type="date" @bind="CheckInDate" />
+
+        <label>Check-out Dato</label>
+        <input type="date" @bind="CheckOutDate" />
+
+        <button @onclick="SearchHotelsAsync">Søg</button>
     </div>
 
-    <button class="btn btn-primary mb-4" @onclick="SearchHotelsAsync">Søg Hoteller</button>
+    <!-- Resultater -->
+    <div class="results-container">
+        @if (hotels == null)
+        {
+            <p><em>Indtast søgekriterier og tryk 'Søg'.</em></p>
+        }
+        else if (!hotels.Any())
+        {
+            <p class="text-danger">Ingen hoteller fundet.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Adresse</th>
+                        <th>By</th>
+                        <th>Land</th>
+                        <th>Pris pr. nat</th>
+                        <th>Stjerner</th>
+                        <th>Vælg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hotel in hotels)
+                    {
+                        <tr>
+                            <td>@hotel.address</td>
+                            <td>@hotel.city</td>
+                            <td>@hotel.country</td>
+                            <td>@hotel.pricePerNight</td>
+                            <td>@hotel.starRating</td>
+                            <td>
+                                <button @onclick="() => SelectHotel(hotel)">Vælg</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
 
-    @if (hotels != null && hotels.Any())
+    @if (selectedHotel != null)
     {
-        <div class="row">
-            @foreach (var hotel in hotels)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-@*                         @if (hotel.accommodationImageUrl != null)
-                        {
-                            <img src="@hotel.accommodationImageUrl" class="card-img-top" alt="@hotel.address" />
-                        } *@
-                        <div class="card-body">
-                            <h5 class="card-title">@hotel.address</h5>
-                            <p class="card-text">
-                                <strong>Adresse:</strong> @hotel.address, @hotel.city, @hotel.country<br />
-                                <strong>Pris pr. nat:</strong> @(hotel.pricePerNight)<br />
-                                <strong>Stjerner:</strong> @(hotel.starRating)
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            }
+        <div class="selected-hotel">
+            <h4>Valgt hotel:</h4>
+            <p><strong>Adresse:</strong> @selectedHotel.address</p>
+            <p><strong>By:</strong> @selectedHotel.city</p>
+            <p><strong>Land:</strong> @selectedHotel.country</p>
+            <p><strong>Pris pr. nat:</strong> @selectedHotel.pricePerNight</p>
+            <p><strong>Stjerner:</strong> @selectedHotel.starRating</p>
+            <button @onclick="ContinueToPackageCreation">Fortsæt</button>
         </div>
     }
-
-    else if (hotels != null)
-    {
-        <p class="text-danger">Ingen hoteller fundet.</p>
-    }
-
 </div>
 
+<style>
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    .form-container {
+        width: 25%;
+        padding: 10px;
+    }
+
+    .results-container {
+        width: 75%;
+        padding: 10px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+        }
+
+    .selected-hotel {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        width: 100%;
+    }
+</style>
+
 @code {
-    private string City { get; set; } = string.Empty;
+    private string City { get; set; } = "CPH";
     private DateTime CheckInDate { get; set; } = DateTime.Today;
     private DateTime CheckOutDate { get; set; } = DateTime.Today.AddDays(9);
 
     private List<AccommodationData> hotels;
+    private AccommodationData selectedHotel;
 
     private async Task SearchHotelsAsync()
     {
         try
         {
-            var checkInDateStr = CheckInDate.ToString("yyyy-MM-dd");
-            var checkOutDateStr = CheckOutDate.ToString("yyyy-MM-dd");
+            var checkIn = CheckInDate.ToString("yyyy-MM-dd");
+            var checkOut = CheckOutDate.ToString("yyyy-MM-dd");
 
-            // Send datoerne som strings
-            hotels = await HotelApiService.SearchHotelsAsync(City, checkInDateStr, checkOutDateStr);
+            hotels = await HotelApiService.SearchHotelsAsync(City, checkIn, checkOut);
 
-            Console.WriteLine($"Antal hoteller fundet: {hotels?.Count}");
+            // Gem søgning i state
+            TravelPackageState.HotelSearchCity = City;
+            TravelPackageState.HotelCheckIn = CheckInDate;
+            TravelPackageState.HotelCheckOut = CheckOutDate;
+            TravelPackageState.HotelSearchResults = hotels;
         }
         catch (Exception ex)
         {
@@ -84,5 +178,26 @@
         }
     }
 
-}
+    private void SelectHotel(AccommodationData hotel)
+    {
+        selectedHotel = hotel;
+        TravelPackageState.SelectedHotel = selectedHotel; // Gem hotellet i TravelPackageState
+    }
 
+    private void ContinueToPackageCreation()
+    {
+        // Du kan også sende hotel-id eller adresse med i URL'en som parametre
+        NavigationManager.NavigateTo("/CreateTravelPackage");
+    }
+    protected override void OnInitialized()
+    {
+        if (TravelPackageState.HotelSearchResults != null)
+        {
+            City = TravelPackageState.HotelSearchCity ?? "CPH";
+            CheckInDate = TravelPackageState.HotelCheckIn ?? DateTime.Today;
+            CheckOutDate = TravelPackageState.HotelCheckOut ?? DateTime.Today.AddDays(9);
+            hotels = TravelPackageState.HotelSearchResults;
+        }
+    }
+
+}
