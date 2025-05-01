@@ -17,7 +17,7 @@ namespace Gotorz2.Client.Services
         {
             try
             {
-                var url = $"https://localhost:7023/api/hotels/search?city={Uri.EscapeDataString(city)}&checkInDate={Uri.EscapeDataString(checkInDate)}&checkOutDate={Uri.EscapeDataString(checkOutDate)}";
+                var url = $"api/hotels/search?city={Uri.EscapeDataString(city)}&checkInDate={Uri.EscapeDataString(checkInDate)}&checkOutDate={Uri.EscapeDataString(checkOutDate)}";
                 Console.WriteLine($"Fetching hotels from URL: {url}");
 
                 var hotels = await _httpClient.GetFromJsonAsync<List<AccommodationData>>(url);

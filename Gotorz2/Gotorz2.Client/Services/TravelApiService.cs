@@ -16,7 +16,7 @@ namespace Gotorz2.Client.Services
         {
             try
             {
-                var url = $"https://localhost:7023/api/flights/search?origin={Uri.EscapeDataString(origin)}&destination={Uri.EscapeDataString(destination)}&date={Uri.EscapeDataString(date)}&returnDate={Uri.EscapeDataString(returnDate)}";
+                var url = $"api/flights/search?origin={Uri.EscapeDataString(origin)}&destination={Uri.EscapeDataString(destination)}&date={Uri.EscapeDataString(date)}&returnDate={Uri.EscapeDataString(returnDate)}";
                 Console.WriteLine($"Fetching flights from URL: {url}");
 
                 var flights = await _httpClient.GetFromJsonAsync<List<RoundTripFlight>>(url);
