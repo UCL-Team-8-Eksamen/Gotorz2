@@ -5,7 +5,7 @@
 @using System.Net.Http.Json
 @using System.Text.Json
 @inject NavigationManager NavigationManager
-@inject HotelApiService HotelService
+@inject HotelApiService HotelApiService
 
 <h3 class="mt-4">Søg efter Hoteller</h3>
 
@@ -34,16 +34,16 @@
             {
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        @if (hotel.Pictures != null && hotel.Pictures.Any())
+@*                         @if (hotel.accommodationImageUrl != null)
                         {
-                            <img src="@hotel.Pictures.FirstOrDefault()?.Uri" class="card-img-top" alt="@hotel.Name" />
-                        }
+                            <img src="@hotel.accommodationImageUrl" class="card-img-top" alt="@hotel.address" />
+                        } *@
                         <div class="card-body">
-                            <h5 class="card-title">@hotel.Name</h5>
+                            <h5 class="card-title">@hotel.address</h5>
                             <p class="card-text">
-                                <strong>Adresse:</strong> @hotel.Address?.Line, @hotel.Address?.City, @hotel.Address?.Country<br />
-                                <strong>Pris pr. nat:</strong> @(hotel.RatePlan?.Price?.Total.ToString("C"))<br />
-                                <strong>Stjerner:</strong> @(hotel.StarRating ?? 0)
+                                <strong>Adresse:</strong> @hotel.address, @hotel.city, @hotel.country<br />
+                                <strong>Pris pr. nat:</strong> @(hotel.pricePerNight)<br />
+                                <strong>Stjerner:</strong> @(hotel.starRating)
                             </p>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
             }
         </div>
     }
-    
+
     else if (hotels != null)
     {
         <p class="text-danger">Ingen hoteller fundet.</p>
@@ -74,7 +74,7 @@
             var checkOutDateStr = CheckOutDate.ToString("yyyy-MM-dd");
 
             // Send datoerne som strings
-            hotels = await HotelService.SearchHotelsAsync(City, checkInDateStr, checkOutDateStr);
+            hotels = await HotelApiService.SearchHotelsAsync(City, checkInDateStr, checkOutDateStr);
 
             Console.WriteLine($"Antal hoteller fundet: {hotels?.Count}");
         }
