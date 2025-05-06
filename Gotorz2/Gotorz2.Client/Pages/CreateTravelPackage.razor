@@ -3,70 +3,389 @@
 @using Gotorz2.Client.Models
 @using Gotorz2.Client.Services
 @inject TravelPackageState TravelPackageState
-@inject TravelPackageService TravelPackageService
 @inject NavigationManager NavigationManager
 
-<h3>Opret Rejsepakke</h3>
+<h3>Pakkerejse-vindue</h3>
 
-@if (TravelPackageState.SelectedFlight == null || TravelPackageState.SelectedHotel == null)
-{
-    <p class="text-danger">Du mangler at vælge både fly og hotel.</p>
-}
-else
-{
-    <div class="package-summary">
-        <h4>Valgt Fly</h4>
-        <p><strong>Ud:</strong> @TravelPackageState.SelectedFlight.Outbound.DepartureAirport → @TravelPackageState.SelectedFlight.Outbound.ArrivalAirport</p>
-        <p>Afrejse: @TravelPackageState.SelectedFlight.Outbound.DepartureTime</p>
-        <p>Pris: @TravelPackageState.SelectedFlight.Outbound.Price</p>
-
-        <p><strong>Retur:</strong> @TravelPackageState.SelectedFlight.Inbound.DepartureAirport → @TravelPackageState.SelectedFlight.Inbound.ArrivalAirport</p>
-        <p>Retur: @TravelPackageState.SelectedFlight.Inbound.DepartureTime</p>
-        <p>Pris: @TravelPackageState.SelectedFlight.Inbound.Price</p>
-
-        <h4>Valgt Hotel</h4>
-        <p><strong>Adresse:</strong> @TravelPackageState.SelectedHotel.address</p>
-        <p><strong>By:</strong> @TravelPackageState.SelectedHotel.city</p>
-        <p><strong>Land:</strong> @TravelPackageState.SelectedHotel.country</p>
-        <p><strong>Pris pr. nat:</strong> @TravelPackageState.SelectedHotel.pricePerNight</p>
-
-        <h4>Beskrivelse af rejsen</h4>
-        <textarea @bind="Description" rows="5" class="form-control" placeholder="Skriv f.eks. familieferie, forretningsrejse, sightseeing..."></textarea>
-
-        <button class="btn btn-success mt-3" @onclick="CreatePackageAsync">Create</button>
+<div class="travel-package-window">
+    <!-- Sidepanel -->
+    <div class="side-panel">
+        <div class="icon-row">
+            <img src="Images/Plane.png" class="icon" />
+            <img src="Images/Hotel.png" class="icon" />
+            <img src="Images/Package.png" class="icon" />
+        </div>
+        <button class="action-button" @onclick="CreatePackageAsync" disabled="@(IsCreateButtonDisabled())">Create Package</button>
+        <button class="action-button" @onclick="SaveEditedPackage" disabled="@(!IsEditing)">Save Edited Package</button>
+        <button class="action-button" @onclick="DeleteSelectedPackage" disabled="@(!IsEditing)">Delete Package</button>
     </div>
-}
+
+    <!-- Formular til oprettelse/redigering -->
+    <div class="main-panel">
+
+        <div class="info-box"
+        <h5>Trip Title</h5>
+        <input class="form-control" @bind="TripTitle" placeholder="Experience London" />
+        </div>
+
+        <div class="info-row">
+            <div class="info-box">
+                <h5>Flight Information</h5>
+                <p><strong>Ud:</strong> @TravelPackageState.SelectedFlight?.Outbound.DepartureAirport → @TravelPackageState.SelectedFlight?.Outbound.ArrivalAirport</p>
+                <p>Afrejse: @TravelPackageState.SelectedFlight?.Outbound.DepartureTime</p>
+                <p>Pris: @TravelPackageState.SelectedFlight?.Outbound.Price</p>
+                <p><strong>Retur:</strong> @TravelPackageState.SelectedFlight?.Inbound.DepartureAirport → @TravelPackageState.SelectedFlight?.Inbound.ArrivalAirport</p>
+                <p>Retur: @TravelPackageState.SelectedFlight?.Inbound.DepartureTime</p>
+                <p>Pris: @TravelPackageState.SelectedFlight?.Inbound.Price</p>
+            </div>
+
+            <div class="info-box">
+                <h5>Hotel Information</h5>
+                <p><strong>Adresse:</strong> @TravelPackageState.SelectedHotel?.address</p>
+                <p><strong>By:</strong> @TravelPackageState.SelectedHotel?.city</p>
+                <p><strong>Land:</strong> @TravelPackageState.SelectedHotel?.country</p>
+                <p><strong>Pris pr. nat:</strong> @TravelPackageState.SelectedHotel?.pricePerNight</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h5>Trip Description</h5>
+            <textarea @bind="Description" rows="3" class="form-control" placeholder="5 days in beautiful London..."></textarea>
+        </div>
+
+        <div class="profit-box">
+            <h5>Fortjeneste (%)</h5>
+            <input type="number" class="form-control" @bind="ProfitPercentage" placeholder="Indtast procent fortjeneste" min="0" />
+        </div>
+
+        <div class="total-price-box">
+            <h5>Trip Total Price (inkl. Fortjeneste)</h5>
+            <p>@CalculateTotalPriceWithProfit().ToString("C")</p>
+        </div>
+
+        <!-- Fejlmeddelelse, hvis der mangler fly, hotel eller pris -->
+        @if (IsCreateButtonDisabled())
+        {
+            <div class="error-message">
+                <p style="color: red;">Du skal vælge både et fly og et hotel, og prisen skal være tilgængelig for at oprette en pakke.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Søgefelt og knap til at tilføje pakker til kundesiden -->
+<div class="package-collection">
+    <!-- Søgefelt -->
+    <div class="search-container">
+        <input type="text" class="form-control search-input" @bind="SearchTerm" placeholder="Find destinations..." />
+        <button class="action-button add-to-web" @onclick="AddToWeb">Add to Web</button>
+        <button class="action-button delete-from-web" @onclick="DeleteFromWeb" disabled="@(!IsEditing)">Delete from Web</button>
+    </div>
+
+    <!-- Header for pakker -->
+    <div class="package-header">
+        <h4>Overview over All created travel packages</h4>
+    </div>
+
+    <!-- Grid for at vise rejsepakker -->
+    <div class="package-grid">
+        @foreach (var pkg in FilteredPackages)
+        {
+            <div class="package-card" @onclick="@(() => SelectPackage(pkg))">
+                <h6>@pkg.TripTitle</h6>
+                <p>@pkg.Description</p>
+                <p><strong>Pris:</strong> @pkg.TripTotalPrice.ToString("C")</p>
+                @if (SelectedPackage == pkg)
+                {
+                    <p style="color: green;">(Valgt)</p>
+                }
+            </div>
+        }
+    </div>
+</div>
+
 
 @code {
+    private string TripTitle { get; set; } = "";
     private string Description { get; set; } = "";
+    private string SearchTerm { get; set; } = "";
+    private List<TravelPackage> CreatedPackages { get; set; } = new();
+    private TravelPackage? SelectedPackage { get; set; }
+    private bool IsEditing => SelectedPackage != null;
+    private decimal ProfitPercentage { get; set; } = 10;
+
+    // Filtrer pakker baseret på søgeterm
+    private IEnumerable<TravelPackage> FilteredPackages =>
+        string.IsNullOrWhiteSpace(SearchTerm)
+            ? CreatedPackages
+            : CreatedPackages.Where(pkg => pkg.TripTitle.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) || pkg.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
+
+    private decimal CalculateTotalPrice()
+    {
+        decimal outboundPrice = TravelPackageState.SelectedFlight?.Outbound.Price != null
+            ? Convert.ToDecimal(TravelPackageState.SelectedFlight.Outbound.Price)
+            : 0m;
+
+        decimal inboundPrice = TravelPackageState.SelectedFlight?.Inbound.Price != null
+            ? Convert.ToDecimal(TravelPackageState.SelectedFlight.Inbound.Price)
+            : 0m;
+
+        decimal hotelPricePerNight = TravelPackageState.SelectedHotel?.pricePerNight != null
+            ? Convert.ToDecimal(TravelPackageState.SelectedHotel.pricePerNight)
+            : 0m;
+
+        return outboundPrice + inboundPrice + hotelPricePerNight;
+    }
+
+    private decimal CalculateTotalPriceWithProfit()
+    {
+        decimal totalPrice = CalculateTotalPrice();
+        decimal profit = totalPrice * (ProfitPercentage / 100);
+        return totalPrice + profit;
+    }
 
     private async Task CreatePackageAsync()
     {
+        // Tjek for om både fly og hotel er valgt og prisen er tilgængelig
+        if (TravelPackageState.SelectedFlight == null || TravelPackageState.SelectedHotel == null || CalculateTotalPrice() <= 0)
+        {
+            Console.WriteLine("Fejl: Fly, hotel eller pris er ikke valgt.");
+            return; // Pakken oprettes ikke
+        }
+
         var package = new TravelPackage
             {
+                TripTitle = TripTitle,
                 Flight = TravelPackageState.SelectedFlight,
                 Hotel = TravelPackageState.SelectedHotel,
-                Description = Description
+                Description = Description,
+                TripTotalPrice = CalculateTotalPriceWithProfit()
             };
 
-        try
-        {
-            await TravelPackageService.SaveTravelPackageAsync(package);
-            Console.WriteLine("Rejsepakke gemt!");
+        CreatedPackages.Add(package);
+        ClearForm();
+    }
 
-            // Nulstil state
-            TravelPackageState.SelectedFlight = null;
-            TravelPackageState.SelectedHotel = null;
-            TravelPackageState.FlightSearchResults = null;
-            TravelPackageState.HotelSearchResults = null;
+    private void SelectPackage(TravelPackage package)
+    {
+        SelectedPackage = package;
+        TripTitle = package.TripTitle;
+        Description = package.Description;
+        TravelPackageState.SelectedFlight = package.Flight;
+        TravelPackageState.SelectedHotel = package.Hotel;
+    }
 
-            // Navigér evt. til en bekræftelsesside
-            NavigationManager.NavigateTo("/flightsearch");
-        }
-        catch (Exception ex)
+    private void SaveEditedPackage()
+    {
+        if (SelectedPackage != null)
         {
-            Console.WriteLine($"Fejl ved gemning: {ex.Message}");
+            SelectedPackage.TripTitle = TripTitle;
+            SelectedPackage.Description = Description;
+            SelectedPackage.Flight = TravelPackageState.SelectedFlight;
+            SelectedPackage.Hotel = TravelPackageState.SelectedHotel;
+            SelectedPackage.TripTotalPrice = CalculateTotalPriceWithProfit();
+            ClearForm();
         }
     }
+
+    private void DeleteSelectedPackage()
+    {
+        if (SelectedPackage != null)
+        {
+            CreatedPackages.Remove(SelectedPackage);
+            ClearForm();
+        }
+    }
+
+    private void ClearForm()
+    {
+        TripTitle = "";
+        Description = "";
+        TravelPackageState.SelectedFlight = null;
+        TravelPackageState.SelectedHotel = null;
+        TravelPackageState.FlightSearchResults = null;
+        TravelPackageState.HotelSearchResults = null;
+        SelectedPackage = null;
+        ProfitPercentage = 0;
+    }
+
+    private bool IsCreateButtonDisabled()
+    {
+        // Hvis der ikke er valgt fly eller hotel, eller hvis totalprisen er 0 eller mindre, deaktiver knappen
+        return TravelPackageState.SelectedFlight == null || TravelPackageState.SelectedHotel == null || CalculateTotalPrice() <= 0;
+    }
+
+    private void AddToWeb()
+    {
+        if (SelectedPackage != null)
+        {
+            // Simuler at pakken bliver vist på kundesiden (her blot en besked)
+            Console.WriteLine($"Pakken {SelectedPackage.TripTitle} er blevet tilføjet til kundesiden.");
+            // Her kan du implementere en funktion til at sende pakken til en backend eller vise den på en kundeside.
+        }
+    }
+
+    private async Task DeleteFromWeb()
+    {
+        if (SelectedPackage != null)
+        {
+            // Fjern pakken fra websiden (kan være en backend-sletning eller noget lokalt)
+            Console.WriteLine($"Pakken {SelectedPackage.TripTitle} er blevet fjernet fra websiden.");
+            // Implementér her eventuelt en kald til backend API for at slette pakken permanent fra databasen
+            // For eksempel: await _packageService.DeletePackageAsync(SelectedPackage.Id);
+            CreatedPackages.Remove(SelectedPackage);
+            ClearForm();
+        }
+    }
+
 }
+
+<style>
+    .travel-package-window {
+        display: flex;
+        gap: 20px;
+    }
+
+    .side-panel {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .icon-row {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .action-button {
+        padding: 8px;
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+        .action-button:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .main-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .info-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .info-box {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #bbb;
+        background-color: #fdfdfd;
+    }
+
+    .profit-box {
+        width: 200px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        background-color: #f9f9f9;
+        margin-top: 20px;
+    }
+
+        .profit-box input {
+            width: 100%;
+            padding: 8px;
+        }
+
+    .total-price-box {
+        width: 200px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        background-color: #f2f2f2;
+    }
+
+    .package-collection {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px; /* Add spacing between elements */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .package-header {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .package-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .package-card {
+        border: 1px solid #007bff;
+        padding: 10px;
+        border-radius: 6px;
+        background-color: #fefefe;
+        cursor: pointer;
+    }
+
+        .package-card:hover {
+            background-color: #e8f5ff;
+        }
+
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 250px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .add-to-web {
+        width: 100%;
+        padding: 8px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 4px;
+    }
+
+        .add-to-web:hover {
+            background-color: #0056b3;
+        }
+
+    .error-message {
+        margin-top: 10px;
+        font-size: 14px;
+        color: red;
+    }
+</style>
 

@@ -8,21 +8,21 @@
 @inject TravelPackageState TravelPackageState
 @inject TravelApiService TravelApiService
 
-<h3>Søg efter fly</h3>
+<h3>Find a flight to specifik a destination</h3>
 
 <div class="container">
     <!-- Formularen til at vælge både afrejse og retur-dato -->
     <div class="form-container">
-        <label for="origin">Afrejsested</label>
-        <input type="text" id="origin" @bind="origin" placeholder="Skriv afrejseby" />
+        <label for="origin">From</label>
+        <input type="text" id="origin" @bind="origin" placeholder="e depature City" />
 
         <label for="destination">Destination</label>
-        <input type="text" id="destination" @bind="destination" placeholder="Skriv destination" />
+        <input type="text" id="destination" @bind="destination" placeholder="Write the name of the destination City" />
 
-        <label for="departureDate">Afrejsedato</label>
+        <label for="departureDate">Departure Date</label>
         <input type="date" id="departureDate" @bind="departureDate" />
 
-        <label for="returnDate">Retur-dato</label>
+        <label for="returnDate">Return Date</label>
         <input type="date" id="returnDate" @bind="returnDate" />
 
         <button @onclick="SearchFlights">Søg</button>
@@ -116,15 +116,15 @@
 </div>
 
 <style>
-    /* Container for at placere formularen og resultaterne ved siden af hinanden */
+    
     .container {
         display: flex;
         margin-top: 20px;
     }
 
-    /* Formularen til at vælge både afrejse og retur-dato */
+    
     .form-container {
-        width: 25%; /* Formularen fylder 1/4 af bredden */
+        width: 25%; 
         padding: 10px;
     }
 
@@ -158,13 +158,13 @@
             background-color: #0056b3;
         }
 
-    /* Resultaterne af søgningen */
+    
     .results-container {
-        width: 75%; /* Resultaterne fylder 3/4 af bredden */
+        width: 75%; 
         padding: 10px;
     }
 
-    /* For at gøre tabellen pænere */
+   
     .table {
         width: 100%;
         border-collapse: collapse;

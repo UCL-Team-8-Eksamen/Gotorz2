@@ -7,14 +7,13 @@
 @inject HotelApiService HotelApiService
 @inject TravelPackageState TravelPackageState
 
-
-<h3>Søg efter hoteller</h3>
+<h3>Find Hotels in a specifik City</h3>
 
 <div class="container">
     <!-- Formular til søgning -->
     <div class="form-container">
-        <label>By</label>
-        <input type="text" @bind="City" placeholder="F.eks. CPH" />
+        <label>City</label>
+        <input type="text" @bind="City" placeholder=" For instance CPH" />
 
         <label>Check-in Dato</label>
         <input type="date" @bind="CheckInDate" />
@@ -22,30 +21,33 @@
         <label>Check-out Dato</label>
         <input type="date" @bind="CheckOutDate" />
 
-        <button @onclick="SearchHotelsAsync">Søg</button>
+        <button @onclick="SearchHotelsAsync">Search</button>
+
+        <!-- Return Button under søg knappen -->
+        <button @onclick="ReturnToFlightSearch" class="return-button">Return to Select Flight</button>
     </div>
 
     <!-- Resultater -->
     <div class="results-container">
         @if (hotels == null)
         {
-            <p><em>Indtast søgekriterier og tryk 'Søg'.</em></p>
+            <p><em>Add search criteria and press 'Search'.</em></p>
         }
         else if (!hotels.Any())
         {
-            <p class="text-danger">Ingen hoteller fundet.</p>
+            <p class="text-danger">No Hotels Found.</p>
         }
         else
         {
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Adresse</th>
-                        <th>By</th>
-                        <th>Land</th>
-                        <th>Pris pr. nat</th>
-                        <th>Stjerner</th>
-                        <th>Vælg</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Price Per Night</th>
+                        <th>Stars</th>
+                        <th>Select</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +60,7 @@
                             <td>@hotel.pricePerNight</td>
                             <td>@hotel.starRating</td>
                             <td>
-                                <button @onclick="() => SelectHotel(hotel)">Vælg</button>
+                                <button @onclick="() => SelectHotel(hotel)">Select</button>
                             </td>
                         </tr>
                     }
@@ -70,13 +72,13 @@
     @if (selectedHotel != null)
     {
         <div class="selected-hotel">
-            <h4>Valgt hotel:</h4>
-            <p><strong>Adresse:</strong> @selectedHotel.address</p>
-            <p><strong>By:</strong> @selectedHotel.city</p>
-            <p><strong>Land:</strong> @selectedHotel.country</p>
-            <p><strong>Pris pr. nat:</strong> @selectedHotel.pricePerNight</p>
-            <p><strong>Stjerner:</strong> @selectedHotel.starRating</p>
-            <button @onclick="ContinueToPackageCreation">Fortsæt</button>
+            <h4>Selected Hotel:</h4>
+            <p><strong>Address:</strong> @selectedHotel.address</p>
+            <p><strong>City:</strong> @selectedHotel.city</p>
+            <p><strong>Country:</strong> @selectedHotel.country</p>
+            <p><strong>Price per Night:</strong> @selectedHotel.pricePerNight</p>
+            <p><strong>Stars:</strong> @selectedHotel.starRating</p>
+            <button @onclick="ContinueToPackageCreation">Continue</button>
         </div>
     }
 </div>
@@ -114,7 +116,7 @@
         width: 100%;
         padding: 10px;
         font-size: 16px;
-        background-color: #28a745;
+        background-color: #007bff;
         color: white;
         border: none;
         border-radius: 4px;
@@ -122,7 +124,7 @@
     }
 
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
 
     .table {
@@ -147,10 +149,19 @@
         background-color: #f9f9f9;
         width: 100%;
     }
+
+    .return-button {
+        background-color: #f0ad4e;
+        margin-top: 10px;
+    }
+
+        .return-button:hover {
+            background-color: #ec971f;
+        }
 </style>
 
 @code {
-    private string City { get; set; } = "CPH";
+    private string City { get; set; }
     private DateTime CheckInDate { get; set; } = DateTime.Today;
     private DateTime CheckOutDate { get; set; } = DateTime.Today.AddDays(9);
 
@@ -189,15 +200,32 @@
         // Du kan også sende hotel-id eller adresse med i URL'en som parametre
         NavigationManager.NavigateTo("/CreateTravelPackage");
     }
-    protected override void OnInitialized()
+
+    private void ReturnToFlightSearch()
     {
-        if (TravelPackageState.HotelSearchResults != null)
-        {
-            City = TravelPackageState.HotelSearchCity ?? "CPH";
-            CheckInDate = TravelPackageState.HotelCheckIn ?? DateTime.Today;
-            CheckOutDate = TravelPackageState.HotelCheckOut ?? DateTime.Today.AddDays(9);
-            hotels = TravelPackageState.HotelSearchResults;
-        }
+        // Navigerer tilbage til flightsearch-siden
+        NavigationManager.NavigateTo("/flightsearch");
     }
 
+    protected override void OnInitialized()
+    {
+        // Hvis HotelSearchResults ikke er null, betyder det, at vi har tidligere søgning at vise
+        if (TravelPackageState.HotelSearchResults != null)
+        {
+            // Hvis der er en flydestination gemt i TravelPackageState, brug den som City værdi
+            City = TravelPackageState.FlightDestination ?? "CPH"; // Brug FlightDestination hvis den findes, ellers brug "CPH"
+
+            // Indstil de øvrige værdier for check-in og check-out datoer
+            CheckInDate = TravelPackageState.HotelCheckIn ?? DateTime.Today;
+            CheckOutDate = TravelPackageState.HotelCheckOut ?? DateTime.Today.AddDays(9);
+
+            // Indstil hotellerne til de tidligere gemte resultater
+            hotels = TravelPackageState.HotelSearchResults;
+        }
+        else
+        {
+            // Hvis der ikke er nogen gemte hotelresultater, skal vi sørge for at bruge flydestinationen som standard
+            City = TravelPackageState.FlightDestination ?? "CPH";
+        }
+    }
 }
