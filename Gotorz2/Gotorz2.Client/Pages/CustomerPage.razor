@@ -9,18 +9,24 @@
 		<div class="nav-left">
 			<img src="Images/Gotorzlogo.png" alt="Logo" class="logo" />
 		</div>
-		<div class="nav-center">
-			<a href="#">Travel Packages</a>
-			<a href="#">Travel Information</a>
-			<a href="#">Customer Service</a>
-		</div>
+
+		<!-- Saml alt i højre side -->
 		<div class="nav-right">
-			<img src="Images/earthicon.jpg" class="icon" />
-			<select class="lang-select">
-				<option>DK</option>
-				<option>EN</option>
-			</select>
-			<button class="login-btn">Login</button>
+			<div class="top-row">
+				<img src="Images/earthicon.jpg" class="icon" />
+				<select class="lang-select">
+					<option>DK</option>
+					<option>EN</option>
+				</select>
+				<!-- Login knappen navigerer til '/fetchdata' -->
+				<button class="login-btn" @onclick="NavigateToFetchData">Login</button>
+			</div>
+
+			<div class="nav-center">
+				<a href="#">Travel Packages</a>
+				<a href="#">Travel Information</a>
+				<a href="#">Customer Service</a>
+			</div>
 		</div>
 	</nav>
 
@@ -34,12 +40,15 @@
 
 	<!-- Destinations -->
 	<section class="destinations">
-		<h2>Discover our hottest destinations</h2>
+		<div class="destination-header">
+			<img src="Images/travelpackageicon.png" alt="Logo" class="travelpackageicon" />
+			<h1>Discover our hottest destinations</h1>
+		</div>
+
 		<div class="destination-grid">
 			@foreach (var package in TravelPackageState.PublishedPackages)
 			{
 				<div class="destination-card">
-					@* <img src="@package.Hotel?.imageUrl" alt="@package.TripTitle" class="card-image" /> *@
 					<h3>@package.TripTitle</h3>
 					<p>@package.Description</p>
 					<button class="price-btn">From @package.TripTotalPrice.ToString("C")</button>
@@ -74,10 +83,11 @@
 	.navbar {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: flex-start; /* Så nav-rights kolonne passer */
+		padding: 1rem 2rem;
 		background-color: #468ef9;
 		color: white;
-		padding: 1rem 2rem;
+		flex-wrap: wrap; /* Gør layout fleksibelt */
 	}
 
 	.nav-left .logo {
@@ -91,41 +101,67 @@
 		font-weight: bold;
 	}
 
+	/* Højre side bliver en kolonne */
 	.nav-right {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.5rem;
+	}
+
+
+	.top-row {
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
 	}
 
-	.icon,
+	/* Links under sprogvalg/login */
+	.nav-center {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+
+		.nav-center a {
+			color: white;
+			text-decoration: none;
+			font-weight: bold;
+		}
+
+	.icon {
+		height: 40px;
+		width: 40px;
+		object-fit: cover;
+		border-radius: 5px;
+		background-color: transparent; /* Fjerner hvid baggrund */
+		padding: 0; /* Fjern padding */
+		border: none;
+	}
+
+	/* Ens stil for sprogvalg og knap */
 	.lang-select,
 	.login-btn {
 		height: 40px;
+		padding: 0 0.75rem;
+		border-radius: 5px;
 		display: flex;
 		align-items: center;
-		padding: 0.5rem 0.75rem;
-		border-radius: 5px;
-	}
-
-	.icon {
-		background-color: #468ef9;
-	}
-
-	.lang-select {
 		border: none;
 	}
 
 	.login-btn {
 		background-color: white;
 		color: #468ef9;
-		border: none;
 		cursor: pointer;
 	}
 
 	/* HERO */
+	/* HERO */
 	.hero-banner {
 		position: relative;
 		height: 80vh; /* fx: 80% af viewportens højde */
+		margin-bottom: 0; /* Sørg for at fjerne eventuel margin */
 	}
 
 		.hero-banner img {
@@ -133,8 +169,8 @@
 			height: 45%;
 			object-fit: cover;
 			display: block;
+			margin-bottom: 0; /* Fjern marginen på billedet */
 		}
-
 
 	.hero-text {
 		position: absolute;
@@ -149,18 +185,44 @@
 	}
 
 
+	/* DESTINATIONS */
 
 	/* DESTINATIONS */
 	.destinations {
-		padding: 2rem;
-		text-align: center;
+		padding: 0;
+		display: flex; /* Brug flexbox for at placere elementerne korrekt */
+		flex-direction: column;
+		justify-content: flex-start; /* Sørger for, at indholdet starter fra toppen */
+		align-items: flex-start; /* Placerer indholdet til venstre */
+		margin-top: 0; /* Fjern ekstra margin mellem header og destinations sektionen */
+	}
+
+	.destination-header {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start; /* Justerer både billede og tekst til venstre */
+		margin-top: 0; /* Fjern marginen før destination-header */
+		margin-bottom: 1rem; /* Giver lidt luft mellem headeren og destination grid */
+	}
+
+	.travelpackageicon {
+		height: 80px;
+		margin-bottom: 0.5rem; /* Giver lidt mellemrum mellem ikon og tekst */
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+		color: #333;
+		text-align: left; /* Justerer overskriften til venstre */
 	}
 
 	.destination-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		grid-template-columns: repeat(3, 1fr);
+		width: 100%;
 		gap: 1.5rem;
-		margin-top: 1rem;
+		margin-top: 0; /* Sørg for at der ikke er ekstra mellemrum før destination grid */
 	}
 
 	.destination-card {
@@ -203,9 +265,6 @@
 		font-size: 1.5rem;
 		margin: 0 0.5rem;
 		cursor: pointer;
-
-
-
 	}
 
 
@@ -214,6 +273,11 @@
 
 @code {
 
+	// Hændelse for login-knappen
+	private void NavigateToFetchData()
+	{
+		NavigationManager.NavigateTo("/fetchdata");
+	}
 
 
 }
