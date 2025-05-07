@@ -219,11 +219,14 @@
     {
         if (SelectedPackage != null)
         {
-            // Simuler at pakken bliver vist på kundesiden (her blot en besked)
-            Console.WriteLine($"Pakken {SelectedPackage.TripTitle} er blevet tilføjet til kundesiden.");
-            // Her kan du implementere en funktion til at sende pakken til en backend eller vise den på en kundeside.
+            if (!TravelPackageState.PublishedPackages.Contains(SelectedPackage))
+            {
+                TravelPackageState.PublishedPackages.Add(SelectedPackage);
+            }
+            Console.WriteLine($"Pakken '{SelectedPackage.TripTitle}' er tilføjet til websiden.");
         }
     }
+
 
     private async Task DeleteFromWeb()
     {

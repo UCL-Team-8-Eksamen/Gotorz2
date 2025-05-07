@@ -20,6 +20,9 @@ namespace Gotorz2.Client.Services
         public DateTime? HotelCheckIn { get; set; }
         public DateTime? HotelCheckOut { get; set; }
         public List<AccommodationData>? HotelSearchResults { get; set; }
+
+
+        public List<TravelPackage> PublishedPackages { get; set; } = new();
     }
 
 }
