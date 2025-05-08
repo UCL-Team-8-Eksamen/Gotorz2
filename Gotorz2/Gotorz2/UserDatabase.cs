@@ -6,9 +6,11 @@ namespace Gotorz2
 	public class User
 	{
 		public string Email { get; }
-		public User(string email)
+		public string Role { get; set; }
+		public User(string email, string role = "user")
 		{
 			Email = email;
+			Role = role;
 		}
 	}
 	public interface IUserDatabase

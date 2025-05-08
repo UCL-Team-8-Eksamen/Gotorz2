@@ -23,7 +23,7 @@ namespace Gotorz2.Controllers
 				new Claim(JwtRegisteredClaimNames.Jti, user.Email) // NOTE: this could a unique ID assigned to the user by a database
 			};
 
-			var token = new JwtSecurityToken(issuer: "domain.com", audience: "domain.com", claims: claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials); // NOTE: ENTER DOMAIN HERE
+			var token = new JwtSecurityToken(issuer: "https://localhost:7180/", audience: "https://localhost:7180/", claims: claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials); // NOTE: ENTER DOMAIN HERE
 			var jsth = new JwtSecurityTokenHandler();
 			return jsth.WriteToken(token);
 		}
