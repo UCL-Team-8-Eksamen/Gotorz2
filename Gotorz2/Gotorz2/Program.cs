@@ -18,6 +18,12 @@ builder.Services.AddHttpClient<TravelApiService>();
 builder.Services.AddScoped<TravelApiService>();
 //Register HotelApiService
 builder.Services.AddScoped<HotelApiService>();
+//Service som holder styr på valgt fly og hotel
+builder.Services.AddSingleton<TravelPackageState>();
+//Service til at gemme rejsepakker (ikke lavet færdigt)
+builder.Services.AddSingleton<TravelPackageService>();
+
+
 
 //Login
 builder.Services.AddControllers();
