@@ -5,27 +5,27 @@
 @using System.Net.Http.Json
 @using System.Text.Json
 @inject NavigationManager NavigationManager
-
+@inject TravelPackageState TravelPackageState
 @inject TravelApiService TravelApiService
 
-<h3>Søg efter fly</h3>
+<h3>Find a flight to a specifik destination</h3>
 
 <div class="container">
     <!-- Formularen til at vælge både afrejse og retur-dato -->
     <div class="form-container">
-        <label for="origin">Afrejsested</label>
-        <input type="text" id="origin" @bind="origin" placeholder="Skriv afrejseby" />
+        <label for="origin">From</label>
+        <input type="text" id="origin" @bind="origin" placeholder="e depature City" />
 
         <label for="destination">Destination</label>
-        <input type="text" id="destination" @bind="destination" placeholder="Skriv destination" />
+        <input type="text" id="destination" @bind="destination" placeholder="Write the name of the destination City" />
 
-        <label for="departureDate">Afrejsedato</label>
+        <label for="departureDate">Departure Date</label>
         <input type="date" id="departureDate" @bind="departureDate" />
 
-        <label for="returnDate">Retur-dato</label>
+        <label for="returnDate">Return Date</label>
         <input type="date" id="returnDate" @bind="returnDate" />
 
-        <button @onclick="SearchFlights">Søg</button>
+        <button @onclick="SearchFlights">Search</button>
     </div>
 
     <!-- Resultater af søgningen -->
@@ -65,7 +65,7 @@
                             <td>@flight.Outbound.Duration</td>
                             <td>@flight.Outbound.Price</td>
                             <!-- Kun én knap per rejse, som vælger både ud- og returflyvning -->
-                            <td><button @onclick="() => SelectFlight(flight)">Vælg Tur/Retur</button></td>
+                            <td><button @onclick="() => SelectFlight(flight)">Select Round Trip</button></td>
                         </tr>
                         <tr>
                             <td>@flight.Inbound.DepartureAirport</td>
@@ -90,7 +90,7 @@
     @if (selectedFlight != null)
     {
         <div class="selected-flight">
-            <h4>Valgt fly:</h4>
+            <h4>Choose Flight:</h4>
             <p><strong>Outbound Flight:</strong></p>
             <p>Departure Airport: @selectedFlight.Outbound.DepartureAirport</p>
             <p>Arrival Airport: @selectedFlight.Outbound.ArrivalAirport</p>
@@ -110,21 +110,21 @@
             <p><strong>Total Price: @selectedFlight.TotalPrice</strong></p>
 
             <!-- Fortsæt knap -->
-            <button @onclick="ContinueToHotelSelection">Fortsæt</button>
+            <button @onclick="ContinueToHotelSelection">Continue</button>
         </div>
     }
 </div>
 
 <style>
-    /* Container for at placere formularen og resultaterne ved siden af hinanden */
+    
     .container {
         display: flex;
         margin-top: 20px;
     }
 
-    /* Formularen til at vælge både afrejse og retur-dato */
+    
     .form-container {
-        width: 25%; /* Formularen fylder 1/4 af bredden */
+        width: 25%; 
         padding: 10px;
     }
 
@@ -158,13 +158,13 @@
             background-color: #0056b3;
         }
 
-    /* Resultaterne af søgningen */
+    
     .results-container {
-        width: 75%; /* Resultaterne fylder 3/4 af bredden */
+        width: 75%; 
         padding: 10px;
     }
 
-    /* For at gøre tabellen pænere */
+   
     .table {
         width: 100%;
         border-collapse: collapse;
@@ -199,29 +199,45 @@
 
     private async Task SearchFlights()
     {
-        // Sørg for at formatere datoerne korrekt som strings
         string formattedDepartureDate = departureDate.ToString("yyyy-MM-dd");
         string formattedReturnDate = returnDate.ToString("yyyy-MM-dd");
 
-        // Kald API'et med både afrejse- og retur-dato som formaterede strings
         flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
+
+        // Gem søgningen i state
+        TravelPackageState.FlightOrigin = origin;
+        TravelPackageState.FlightDestination = destination;
+        TravelPackageState.FlightDepartureDate = departureDate;
+        TravelPackageState.FlightReturnDate = returnDate;
+        TravelPackageState.FlightSearchResults = flights;
     }
 
     private void SelectFlight(RoundTripFlight flight)
     {
         selectedFlight = flight;
+        TravelPackageState.SelectedFlight = selectedFlight; // Gem flyvningen i TravelPackageState
     }
 
     private void ContinueToHotelSelection()
     {
         // Naviger til hotel-siden
-        NavigationManager.NavigateTo("/hotelsearch");
+        NavigationManager.NavigateTo("/AccommodationSearch");
     }
 
     protected override async Task OnInitializedAsync()
     {
-        // Hvis du ønsker at hente flyvninger ved initialisering (kan udelades eller tilpasses)
-        await SearchFlights();
+        if (TravelPackageState.FlightSearchResults != null)
+        {
+            origin = TravelPackageState.FlightOrigin ?? "CPH";
+            destination = TravelPackageState.FlightDestination ?? "NYC";
+            departureDate = TravelPackageState.FlightDepartureDate ?? DateTime.Today;
+            returnDate = TravelPackageState.FlightReturnDate ?? DateTime.Today.AddDays(7);
+            flights = TravelPackageState.FlightSearchResults;
+        }
+        else
+        {
+            await SearchFlights(); // initial søgning, hvis ingen tidligere data
+        }
     }
 }
 
