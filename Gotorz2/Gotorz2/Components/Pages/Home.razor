@@ -1,12 +1,21 @@
 ﻿@page "/"
-
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
 <div class="text-center mt-5">
     <h1 class="display-4 fw-bold">Velkommen til Gotorz</h1>
     <p class="fs-5 text-muted">Din rejse starter her – book fly og hotel nemt og hurtigt</p>
 
-    <a href="/flightsearch" class="btn btn-primary btn-lg mt-4">Start din rejse her</a>
+    @* <a href="/flightsearch" class="btn btn-primary btn-lg mt-4">Start din rejse her</a> *@
+
+    <button @onclick="NavigateToFlightSearch" class="btn btn-primary btn-lg mt-4">
+        Start your journey here
+    </button>
 
     <div class="mt-5">
         <img src="images/GoTorz.jpg" class="img-fluid rounded shadow" alt="Rejsebillede" style="max-width: 80%;" />
     </div>
 </div>
+
+@code {
+    void NavigateToFlightSearch() => Navigation.NavigateTo("/flightsearch");
+}
