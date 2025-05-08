@@ -1,10 +1,10 @@
-﻿@page "/hotelsearch"
+﻿@page "/AccommodationSearch"
 @rendermode InteractiveAuto
 @using Gotorz2.Client.Models
 @using Gotorz2.Client.Services
 @using System.Net.Http.Json
 @inject NavigationManager NavigationManager
-@inject HotelApiService HotelApiService
+@inject AccommodationApiService AccommodationApiService
 @inject TravelPackageState TravelPackageState
 
 <h3>Find Hotels in a specifik City</h3>
@@ -42,6 +42,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Address</th>
                         <th>City</th>
                         <th>Country</th>
@@ -54,6 +55,9 @@
                     @foreach (var hotel in hotels)
                     {
                         <tr>
+                            <td>
+                                <img src="@hotel.PictureUrl" alt="Hotel Image" style="width: 100px; height: auto;" />
+                            </td>
                             <td>@hotel.address</td>
                             <td>@hotel.city</td>
                             <td>@hotel.country</td>
@@ -73,6 +77,10 @@
     {
         <div class="selected-hotel">
             <h4>Selected Hotel:</h4>
+            @if (!string.IsNullOrEmpty(selectedHotel.PictureUrl))
+            {
+                <img src="@selectedHotel.PictureUrl" alt="Selected Hotel Image" style="max-width: 300px; height: auto; margin-bottom: 10px;" />
+            }
             <p><strong>Address:</strong> @selectedHotel.address</p>
             <p><strong>City:</strong> @selectedHotel.city</p>
             <p><strong>Country:</strong> @selectedHotel.country</p>
@@ -165,8 +173,8 @@
     private DateTime CheckInDate { get; set; } = DateTime.Today;
     private DateTime CheckOutDate { get; set; } = DateTime.Today.AddDays(9);
 
-    private List<AccommodationData> hotels;
-    private AccommodationData selectedHotel;
+    private List<Accommodation> hotels;
+    private Accommodation selectedHotel;
 
     private async Task SearchHotelsAsync()
     {
@@ -175,13 +183,13 @@
             var checkIn = CheckInDate.ToString("yyyy-MM-dd");
             var checkOut = CheckOutDate.ToString("yyyy-MM-dd");
 
-            hotels = await HotelApiService.SearchHotelsAsync(City, checkIn, checkOut);
+            hotels = await AccommodationApiService.SearchHotelsAsync(City, checkIn, checkOut);
 
             // Gem søgning i state
-            TravelPackageState.HotelSearchCity = City;
+            TravelPackageState.AccommodationSearchCity = City;
             TravelPackageState.HotelCheckIn = CheckInDate;
             TravelPackageState.HotelCheckOut = CheckOutDate;
-            TravelPackageState.HotelSearchResults = hotels;
+            TravelPackageState.AccommodationSearchResults = hotels;
         }
         catch (Exception ex)
         {
@@ -189,7 +197,7 @@
         }
     }
 
-    private void SelectHotel(AccommodationData hotel)
+    private void SelectHotel(Accommodation hotel)
     {
         selectedHotel = hotel;
         TravelPackageState.SelectedHotel = selectedHotel; // Gem hotellet i TravelPackageState
@@ -209,8 +217,8 @@
 
     protected override void OnInitialized()
     {
-        // Hvis HotelSearchResults ikke er null, betyder det, at vi har tidligere søgning at vise
-        if (TravelPackageState.HotelSearchResults != null)
+        // Hvis AccommodationSearchResults ikke er null, betyder det, at vi har tidligere søgning at vise
+        if (TravelPackageState.AccommodationSearchResults != null)
         {
             // Hvis der er en flydestination gemt i TravelPackageState, brug den som City værdi
             City = TravelPackageState.FlightDestination ?? "CPH"; // Brug FlightDestination hvis den findes, ellers brug "CPH"
@@ -220,7 +228,7 @@
             CheckOutDate = TravelPackageState.HotelCheckOut ?? DateTime.Today.AddDays(9);
 
             // Indstil hotellerne til de tidligere gemte resultater
-            hotels = TravelPackageState.HotelSearchResults;
+            hotels = TravelPackageState.AccommodationSearchResults;
         }
         else
         {

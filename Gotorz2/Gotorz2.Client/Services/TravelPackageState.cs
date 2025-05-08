@@ -7,7 +7,7 @@ namespace Gotorz2.Client.Services
     public class TravelPackageState
     {
         public RoundTripFlight? SelectedFlight { get; set; }
-        public AccommodationData? SelectedHotel { get; set; }
+        public Accommodation? SelectedHotel { get; set; }
 
         public string? FlightOrigin { get; set; }
         public string? FlightDestination { get; set; }
@@ -16,10 +16,10 @@ namespace Gotorz2.Client.Services
         public List<RoundTripFlight>? FlightSearchResults { get; set; }
 
 
-        public string? HotelSearchCity { get; set; }
+        public string? AccommodationSearchCity { get; set; }
         public DateTime? HotelCheckIn { get; set; }
         public DateTime? HotelCheckOut { get; set; }
-        public List<AccommodationData>? HotelSearchResults { get; set; }
+        public List<Accommodation>? AccommodationSearchResults { get; set; }
 
 
         public List<TravelPackage> PublishedPackages { get; set; } = new();

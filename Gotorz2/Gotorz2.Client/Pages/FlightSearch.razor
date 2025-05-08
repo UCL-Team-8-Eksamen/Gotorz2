@@ -8,7 +8,7 @@
 @inject TravelPackageState TravelPackageState
 @inject TravelApiService TravelApiService
 
-<h3>Find a flight to specifik a destination</h3>
+<h3>Find a flight to a specifik destination</h3>
 
 <div class="container">
     <!-- Formularen til at vælge både afrejse og retur-dato -->
@@ -25,7 +25,7 @@
         <label for="returnDate">Return Date</label>
         <input type="date" id="returnDate" @bind="returnDate" />
 
-        <button @onclick="SearchFlights">Søg</button>
+        <button @onclick="SearchFlights">Search</button>
     </div>
 
     <!-- Resultater af søgningen -->
@@ -65,7 +65,7 @@
                             <td>@flight.Outbound.Duration</td>
                             <td>@flight.Outbound.Price</td>
                             <!-- Kun én knap per rejse, som vælger både ud- og returflyvning -->
-                            <td><button @onclick="() => SelectFlight(flight)">Vælg Tur/Retur</button></td>
+                            <td><button @onclick="() => SelectFlight(flight)">Select Round Trip</button></td>
                         </tr>
                         <tr>
                             <td>@flight.Inbound.DepartureAirport</td>
@@ -90,7 +90,7 @@
     @if (selectedFlight != null)
     {
         <div class="selected-flight">
-            <h4>Valgt fly:</h4>
+            <h4>Choose Flight:</h4>
             <p><strong>Outbound Flight:</strong></p>
             <p>Departure Airport: @selectedFlight.Outbound.DepartureAirport</p>
             <p>Arrival Airport: @selectedFlight.Outbound.ArrivalAirport</p>
@@ -110,7 +110,7 @@
             <p><strong>Total Price: @selectedFlight.TotalPrice</strong></p>
 
             <!-- Fortsæt knap -->
-            <button @onclick="ContinueToHotelSelection">Fortsæt</button>
+            <button @onclick="ContinueToHotelSelection">Continue</button>
         </div>
     }
 </div>
@@ -221,7 +221,7 @@
     private void ContinueToHotelSelection()
     {
         // Naviger til hotel-siden
-        NavigationManager.NavigateTo("/hotelsearch");
+        NavigationManager.NavigateTo("/AccommodationSearch");
     }
 
     protected override async Task OnInitializedAsync()

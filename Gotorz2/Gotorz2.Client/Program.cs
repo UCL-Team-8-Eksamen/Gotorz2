@@ -9,8 +9,8 @@ builder.Services.AddHttpClient<TravelApiService>(client =>
     client.BaseAddress = new Uri("https://localhost:7023/");
 });
 
-// TILFØJ DETTE for HotelApiService
-builder.Services.AddHttpClient<HotelApiService>(client =>
+// TILFØJ DETTE for AccommodationApiService
+builder.Services.AddHttpClient<AccommodationApiService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7023/");
 });

@@ -2,6 +2,7 @@
 @rendermode InteractiveAuto
 @using Gotorz2.Client.Models
 @using Gotorz2.Client.Services
+@using System.Globalization
 @inject TravelPackageState TravelPackageState
 @inject NavigationManager NavigationManager
 
@@ -23,10 +24,11 @@
     <!-- Formular til oprettelse/redigering -->
     <div class="main-panel">
 
-        <div class="info-box"
-        <h5>Trip Title</h5>
-        <input class="form-control" @bind="TripTitle" placeholder="Experience London" />
+        <div class="info-box">
+            <h5>Trip Title</h5>
+            <input class="form-control" @bind="TripTitle" placeholder="Experience London" />
         </div>
+
 
         <div class="info-row">
             <div class="info-box">
@@ -41,11 +43,18 @@
 
             <div class="info-box">
                 <h5>Hotel Information</h5>
+
+                @if (!string.IsNullOrEmpty(TravelPackageState.SelectedHotel?.PictureUrl))
+                {
+                    <img src="@TravelPackageState.SelectedHotel.PictureUrl" alt="Hotel billede" style="max-width: 300px; height: auto; margin-bottom: 10px;" />
+                }
+
                 <p><strong>Adresse:</strong> @TravelPackageState.SelectedHotel?.address</p>
                 <p><strong>By:</strong> @TravelPackageState.SelectedHotel?.city</p>
                 <p><strong>Land:</strong> @TravelPackageState.SelectedHotel?.country</p>
                 <p><strong>Pris pr. nat:</strong> @TravelPackageState.SelectedHotel?.pricePerNight</p>
             </div>
+
         </div>
 
         <div class="info-box">
@@ -93,6 +102,10 @@
         {
             <div class="package-card" @onclick="@(() => SelectPackage(pkg))">
                 <h6>@pkg.TripTitle</h6>
+                @if (!string.IsNullOrEmpty(pkg.PictureUrl))
+                {
+                    <img src="@pkg.PictureUrl" alt="Hotel billede" style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 5px;" />
+                }
                 <p>@pkg.Description</p>
                 <p><strong>Pris:</strong> @pkg.TripTotalPrice.ToString("C")</p>
                 @if (SelectedPackage == pkg)
@@ -156,6 +169,7 @@
         var package = new TravelPackage
             {
                 TripTitle = TripTitle,
+                PictureUrl = TravelPackageState.SelectedHotel?.PictureUrl,
                 Flight = TravelPackageState.SelectedFlight,
                 Hotel = TravelPackageState.SelectedHotel,
                 Description = Description,
@@ -204,7 +218,7 @@
         TravelPackageState.SelectedFlight = null;
         TravelPackageState.SelectedHotel = null;
         TravelPackageState.FlightSearchResults = null;
-        TravelPackageState.HotelSearchResults = null;
+        TravelPackageState.AccommodationSearchResults = null;
         SelectedPackage = null;
         ProfitPercentage = 0;
     }
