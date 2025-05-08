@@ -35,9 +35,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateAudience = true,
-        ValidAudience = "domain.com", // NOTE: ENTER DOMAIN HERE
+        ValidAudience = "https://localhost:7180/", // NOTE: ENTER DOMAIN HERE
         ValidateIssuer = true,
-        ValidIssuer = "domain.com", // NOTE: ENTER DOMAIN HERE
+        ValidIssuer = "https://localhost:7180/", // NOTE: ENTER DOMAIN HERE
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("524C1F22-6115-4E16-9B6A-3FBF185308F2")) // NOTE: THIS SHOULD BE A SECRET KEY NOT TO BE SHARED; A GUID IS RECOMMENDED, DO NOT REUSE THIS GUID

@@ -7,7 +7,7 @@
 <PageTitle>FetchData</PageTitle>
 
 <UserComponent></UserComponent>
-<h1>Weather forecast</h1>
+<h1>Login</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 @if (string.IsNullOrEmpty(userdata))
@@ -21,7 +21,6 @@ else
 
 @code {
 
-	private List<Travel> forecasts;
 	string userdata;
 
 	private async Task<string> GetJWT()
@@ -36,37 +35,6 @@ else
 		return null;
 	}
 
-	private async Task GetTodaysForecast()
-	{
-		try
-		{
-			using (HttpClient Http = new HttpClient { BaseAddress = new Uri(nav.BaseUri) })
-			{
-
-				var requestMsg = new HttpRequestMessage(HttpMethod.Get, $"/api/weatherforecast/{DateTime.Now.ToString("yyyy-MM-dd")}");
-				requestMsg.Headers.Add("Authorization", "Bearer " + await GetJWT());
-				var response = await Http.SendAsync(requestMsg);
-				if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) // NOTE: THEN TOKEN HAS EXPIRED
-				{
-					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
-					userdata = null;
-				}
-				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-					forecasts = null;
-				else if (response.IsSuccessStatusCode)
-				{
-					var forecast = await response.Content.ReadFromJsonAsync<Travel>();
-					forecasts.Clear();
-					forecasts.Add(forecast);
-				}
-			}
-		}
-		catch (Exception ex)
-		{
-
-		}
-
-	}
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -83,10 +51,6 @@ else
 					await jsr.InvokeVoidAsync("localStorage.removeItem", "user").ConfigureAwait(false);
 					userdata = null;
 				}
-				else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-					forecasts = null;
-				else if (response.IsSuccessStatusCode)
-					forecasts = await response.Content.ReadFromJsonAsync<List<Travel>>();
 			}
 		}
 		catch (Exception ex)
