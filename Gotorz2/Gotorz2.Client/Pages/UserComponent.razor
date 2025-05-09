@@ -8,12 +8,13 @@
 	}
 	else
 	{
-		<span>Hello, @username <a href="/logout">(Logout)</a></span>
+		<span>Hello, @username @userRole <a href="/logout">(Logout)</a></span>
 	}
 </p>
 
 @code {
 	private string username = string.Empty;
+	private string userRole = string.Empty;
 	private System.Threading.Timer? timer;
 	private bool _disposed;
 
@@ -31,6 +32,12 @@
 				if (temp != username)
 				{
 					username = temp;
+					await InvokeAsync(StateHasChanged); // 👈 Korrekt måde at kalde StateHasChanged fra en anden tråd
+				}
+				var temp2 = userdata.Split(';', 2)[1];
+				if (temp != userRole)
+				{
+					userRole = temp;
 					await InvokeAsync(StateHasChanged); // 👈 Korrekt måde at kalde StateHasChanged fra en anden tråd
 				}
 			}

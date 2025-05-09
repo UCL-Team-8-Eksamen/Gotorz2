@@ -1,4 +1,4 @@
-﻿using Gotorz2;
+using Gotorz2;
 using Gotorz2.Client.Services;
 using Gotorz2.Components;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
