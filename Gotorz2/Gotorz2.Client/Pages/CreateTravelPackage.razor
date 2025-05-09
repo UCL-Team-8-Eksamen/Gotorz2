@@ -5,6 +5,7 @@
 @using System.Globalization
 @inject TravelPackageState TravelPackageState
 @inject NavigationManager NavigationManager
+@inject TravelPackageService TravelPackageService
 
 <h3>Pakkerejse-vindue</h3>
 
@@ -98,7 +99,7 @@
 
     <!-- Grid for at vise rejsepakker -->
     <div class="package-grid">
-        @foreach (var pkg in FilteredPackages)
+        @foreach (var pkg in TravelPackageState.PublishedPackages)
         {
             <div class="package-card" @onclick="@(() => SelectPackage(pkg))">
                 <h6>@pkg.TripTitle</h6>
@@ -114,6 +115,7 @@
                 }
             </div>
         }
+
     </div>
 </div>
 
@@ -122,16 +124,28 @@
     private string TripTitle { get; set; } = "";
     private string Description { get; set; } = "";
     private string SearchTerm { get; set; } = "";
+    //reference til TravelPackageService i komponent, så vi kan kalde SaveTravelPackageAsync().
+    private TravelPackageService PackageService { get; set; }
     private List<TravelPackage> CreatedPackages { get; set; } = new();
     private TravelPackage? SelectedPackage { get; set; }
     private bool IsEditing => SelectedPackage != null;
     private decimal ProfitPercentage { get; set; } = 10;
 
     // Filtrer pakker baseret på søgeterm
-    private IEnumerable<TravelPackage> FilteredPackages =>
-        string.IsNullOrWhiteSpace(SearchTerm)
-            ? CreatedPackages
-            : CreatedPackages.Where(pkg => pkg.TripTitle.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) || pkg.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
+    private IEnumerable<TravelPackage> FilteredPackages
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                return CreatedPackages;
+            }
+
+            return CreatedPackages.Where(pkg =>
+                pkg.TripTitle.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                pkg.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
+        }
+    }
 
     private decimal CalculateTotalPrice()
     {
@@ -159,14 +173,13 @@
 
     private async Task CreatePackageAsync()
     {
-        // Tjek for om både fly og hotel er valgt og prisen er tilgængelig
         if (TravelPackageState.SelectedFlight == null || TravelPackageState.SelectedHotel == null || CalculateTotalPrice() <= 0)
         {
             Console.WriteLine("Fejl: Fly, hotel eller pris er ikke valgt.");
-            return; // Pakken oprettes ikke
+            return;
         }
 
-        var package = new TravelPackage
+        var newPackage = new TravelPackage
             {
                 TripTitle = TripTitle,
                 PictureUrl = TravelPackageState.SelectedHotel?.PictureUrl,
@@ -176,9 +189,28 @@
                 TripTotalPrice = CalculateTotalPriceWithProfit()
             };
 
-        CreatedPackages.Add(package);
+        // try
+        // {
+        //     // 1. Tilføj rejsepakken midlertidigt til UI
+                TravelPackageState.PublishedPackages.Add(newPackage);
+
+        //     // 2. Gem i database
+        //     await TravelPackageService.SaveTravelPackageAsync(newPackage);
+
+        //     // 3. Hvis succes – evt. marker som "gemt"
+        //     Console.WriteLine($"Pakken '{newPackage.TripTitle}' er gemt i databasen.");
+        // }
+        // catch (Exception ex)
+        // {
+        //     // 4. Hvis fejl – fjern fra UI og vis besked
+        //     TravelPackageState.PublishedPackages.Remove(newPackage);
+        //     Console.WriteLine($"Fejl ved gemning: {ex.Message}");
+        // }
+
         ClearForm();
     }
+
+
 
     private void SelectPackage(TravelPackage package)
     {
@@ -242,6 +274,7 @@
     }
 
 
+
     private async Task DeleteFromWeb()
     {
         if (SelectedPackage != null)
@@ -254,6 +287,12 @@
             ClearForm();
         }
     }
+
+    protected override void OnInitialized()
+    {
+        // Intet kode her
+    }
+
 
 }
 
