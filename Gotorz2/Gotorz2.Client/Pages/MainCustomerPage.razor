@@ -1,4 +1,4 @@
-﻿@page "/customerpage"
+﻿@page "/maincustomerpage"
 @rendermode InteractiveAuto
 @inject NavigationManager NavigationManager
 @inject Gotorz2.Client.Services.TravelPackageState TravelPackageState
@@ -25,7 +25,7 @@
 				</select>
 
 				<!-- Når man klikker på "Login", går man til en ny side med data (fetchdata) -->
-				<button class="login-btn" @onclick="NavigateToLogin">Login</button>
+				<button class="login-btn" @onclick="NavigateToLoginPage">Login</button>
 			</div>
 
 			<div class="nav-center">
@@ -139,7 +139,6 @@
 		text-decoration: underline; /* Fjerner understregning fra links */
 		margin: 0 1rem; /* Lidt afstand til højre og venstre for hvert link */
 		font-weight: bold; /* Gør teksten fed */
-
 	}
 
 	/* Højre side af menuen (sprogvalg + login + links) */
@@ -319,7 +318,7 @@
 @code {
 
 	// Hændelse for login-knappen
-	private void NavigateToLogin()
+	private void NavigateToLoginPage()
 	{
 		NavigationManager.NavigateTo("/login");
 	}
