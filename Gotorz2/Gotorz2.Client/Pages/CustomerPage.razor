@@ -25,7 +25,7 @@
 				</select>
 
 				<!-- Når man klikker på "Login", går man til en ny side med data (fetchdata) -->
-				<button class="login-btn" @onclick="NavigateToFetchData">Login</button>
+				<button class="login-btn" @onclick="NavigateToLogin">Login</button>
 			</div>
 
 			<div class="nav-center">
@@ -319,9 +319,9 @@
 @code {
 
 	// Hændelse for login-knappen
-	private void NavigateToFetchData()
+	private void NavigateToLogin()
 	{
-		NavigationManager.NavigateTo("/fetchdata");
+		NavigationManager.NavigateTo("/Login");
 	}
 
 
