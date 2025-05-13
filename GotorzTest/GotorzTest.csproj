@@ -19,11 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gotorz2\Gotorz2.Client\Gotorz2.Client.csproj" />
-    <ProjectReference Include="..\Gotorz2\Gotorz2\Gotorz2.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

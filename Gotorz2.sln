@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gotorz2", "Gotorz2\Gotorz2\Gotorz2.csproj", "{E2F26104-8A03-4455-94BF-71B2DE76B009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GotorzTest", "GotorzTest\GotorzTest.csproj", "{AC84F5D9-4AAF-437E-879F-D1F8ECABFE73}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gotorz2.Client", "Gotorz2\Gotorz2.Client\Gotorz2.Client.csproj", "{DFF04FF1-C193-464D-B540-4174472F4B6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gotorz", "Gotorz\Gotorz\Gotorz.csproj", "{B813A722-D461-4EAD-AEC2-EC37D3B7855C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GotorzTest", "GotorzTest\GotorzTest.csproj", "{AC84F5D9-4AAF-437E-879F-D1F8ECABFE73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gotorz.Client", "Gotorz\Gotorz.Client\Gotorz.Client.csproj", "{DBCEDD25-1D89-496E-B6A7-51812DEFEFE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E2F26104-8A03-4455-94BF-71B2DE76B009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2F26104-8A03-4455-94BF-71B2DE76B009}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2F26104-8A03-4455-94BF-71B2DE76B009}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2F26104-8A03-4455-94BF-71B2DE76B009}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFF04FF1-C193-464D-B540-4174472F4B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFF04FF1-C193-464D-B540-4174472F4B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFF04FF1-C193-464D-B540-4174472F4B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFF04FF1-C193-464D-B540-4174472F4B6C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC84F5D9-4AAF-437E-879F-D1F8ECABFE73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC84F5D9-4AAF-437E-879F-D1F8ECABFE73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC84F5D9-4AAF-437E-879F-D1F8ECABFE73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC84F5D9-4AAF-437E-879F-D1F8ECABFE73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B813A722-D461-4EAD-AEC2-EC37D3B7855C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B813A722-D461-4EAD-AEC2-EC37D3B7855C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B813A722-D461-4EAD-AEC2-EC37D3B7855C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B813A722-D461-4EAD-AEC2-EC37D3B7855C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBCEDD25-1D89-496E-B6A7-51812DEFEFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBCEDD25-1D89-496E-B6A7-51812DEFEFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBCEDD25-1D89-496E-B6A7-51812DEFEFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBCEDD25-1D89-496E-B6A7-51812DEFEFE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,239 @@
+﻿@page "/accommodationSearch"
+@rendermode InteractiveAuto
+@using Gotorz.Client.Models
+@using Gotorz.Client.Services
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject AccommodationApiService AccommodationApiService
+@inject TravelPackageState TravelPackageState
+
+<h3>Find Hotels in a specifik City</h3>
+
+<div class="container">
+    <!-- Formular til søgning -->
+    <div class="form-container">
+        <label>City</label>
+        <input type="text" @bind="City" placeholder=" For instance CPH" />
+
+        <label>Check-in Dato</label>
+        <input type="date" @bind="CheckInDate" />
+
+        <label>Check-out Dato</label>
+        <input type="date" @bind="CheckOutDate" />
+
+        <button @onclick="SearchHotelsAsync">Search</button>
+
+        <!-- Return Button under søg knappen -->
+        <button @onclick="ReturnToFlightSearch" class="return-button">Return to Select Flight</button>
+    </div>
+
+    <!-- Resultater -->
+    <div class="results-container">
+        @if (hotels == null)
+        {
+            <p><em>Add search criteria and press 'Search'.</em></p>
+        }
+        else if (!hotels.Any())
+        {
+            <p class="text-danger">No Hotels Found.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Price Per Night</th>
+                        <th>Stars</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hotel in hotels)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@hotel.PictureUrl" alt="Hotel Image" style="width: 100px; height: auto;" />
+                            </td>
+                            <td>@hotel.address</td>
+                            <td>@hotel.city</td>
+                            <td>@hotel.country</td>
+                            <td>@hotel.pricePerNight</td>
+                            <td>@hotel.starRating</td>
+                            <td>
+                                <button @onclick="() => SelectHotel(hotel)">Select</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    @if (selectedHotel != null)
+    {
+        <div class="selected-hotel">
+            <h4>Selected Hotel:</h4>
+            @if (!string.IsNullOrEmpty(selectedHotel.PictureUrl))
+            {
+                <img src="@selectedHotel.PictureUrl" alt="Selected Hotel Image" style="max-width: 300px; height: auto; margin-bottom: 10px;" />
+            }
+            <p><strong>Address:</strong> @selectedHotel.address</p>
+            <p><strong>City:</strong> @selectedHotel.city</p>
+            <p><strong>Country:</strong> @selectedHotel.country</p>
+            <p><strong>Price per Night:</strong> @selectedHotel.pricePerNight</p>
+            <p><strong>Stars:</strong> @selectedHotel.starRating</p>
+            <button @onclick="ContinueToPackageCreation">Continue</button>
+        </div>
+    }
+</div>
+
+<style>
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    .form-container {
+        width: 25%;
+        padding: 10px;
+    }
+
+    .results-container {
+        width: 75%;
+        padding: 10px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+        }
+
+    .selected-hotel {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        width: 100%;
+    }
+
+    .return-button {
+        background-color: #f0ad4e;
+        margin-top: 10px;
+    }
+
+        .return-button:hover {
+            background-color: #ec971f;
+        }
+</style>
+
+@code {
+    private string City { get; set; }
+    private DateTime CheckInDate { get; set; } = DateTime.Today;
+    private DateTime CheckOutDate { get; set; } = DateTime.Today.AddDays(9);
+
+    private List<Accommodation> hotels;
+    private Accommodation selectedHotel;
+
+    private async Task SearchHotelsAsync()
+    {
+        try
+        {
+            var checkIn = CheckInDate.ToString("yyyy-MM-dd");
+            var checkOut = CheckOutDate.ToString("yyyy-MM-dd");
+
+            hotels = await AccommodationApiService.SearchHotelsAsync(City, checkIn, checkOut);
+
+            // Gem søgning i state
+            TravelPackageState.AccommodationSearchCity = City;
+            TravelPackageState.HotelCheckIn = CheckInDate;
+            TravelPackageState.HotelCheckOut = CheckOutDate;
+            TravelPackageState.AccommodationSearchResults = hotels;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching hotels: {ex.Message}");
+        }
+    }
+
+    private void SelectHotel(Accommodation hotel)
+    {
+        selectedHotel = hotel;
+        TravelPackageState.SelectedHotel = selectedHotel; // Gem hotellet i TravelPackageState
+    }
+
+    private void ContinueToPackageCreation()
+    {
+        // Du kan også sende hotel-id eller adresse med i URL'en som parametre
+        NavigationManager.NavigateTo("/CreateTravelPackage");
+    }
+
+    private void ReturnToFlightSearch()
+    {
+        // Navigerer tilbage til flightsearch-siden
+        NavigationManager.NavigateTo("/flightsearch");
+    }
+
+    protected override void OnInitialized()
+    {
+        // Hvis AccommodationSearchResults ikke er null, betyder det, at vi har tidligere søgning at vise
+        if (TravelPackageState.AccommodationSearchResults != null)
+        {
+            // Hvis der er en flydestination gemt i TravelPackageState, brug den som City værdi
+            City = TravelPackageState.FlightDestination ?? "CPH"; // Brug FlightDestination hvis den findes, ellers brug "CPH"
+
+            // Indstil de øvrige værdier for check-in og check-out datoer
+            CheckInDate = TravelPackageState.HotelCheckIn ?? DateTime.Today;
+            CheckOutDate = TravelPackageState.HotelCheckOut ?? DateTime.Today.AddDays(9);
+
+            // Indstil hotellerne til de tidligere gemte resultater
+            hotels = TravelPackageState.AccommodationSearchResults;
+        }
+        else
+        {
+            // Hvis der ikke er nogen gemte hotelresultater, skal vi sørge for at bruge flydestinationen som standard
+            City = TravelPackageState.FlightDestination ?? "CPH";
+        }
+    }
+}

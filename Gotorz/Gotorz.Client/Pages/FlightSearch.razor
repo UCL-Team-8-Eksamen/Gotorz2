@@ -1,0 +1,270 @@
+﻿@page "/flightsearch"
+@rendermode InteractiveAuto
+@using Gotorz.Client.Services
+@using Gotorz.Client.Models
+@using System.Net.Http.Json
+@using System.Text.Json
+@inject NavigationManager NavigationManager
+@inject TravelPackageState TravelPackageState
+@inject TravelApiService TravelApiService
+
+<h1 class="text-center mt-4 mb-3">Book din drømmerejse</h1>
+<p class="text-center text-muted mb-5">Find de bedste flybilletter til din næste ferie – hurtigt og nemt.</p>
+
+<!-- POPULAR DESTINATIONS -->
+<div class="mt-5 pt-4 border-top">
+    <h4 class="text-center mb-4">Popular destinations</h4>
+
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <img src="images/3-eiffel-tower-getty.jpg" class="img-fluid rounded mb-2" alt="Paris" />
+            <p class="fw-semibold">Paris</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <img src="images/japan-tokyo-asakusa-senso-ji-temple.jpg" class="img-fluid rounded mb-2" alt="Tokyo" />
+            <p class="fw-semibold">Tokyo</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <img src="images/new-york-city-statue-of-liberty.jpg" class="img-fluid rounded mb-2" alt="New York" />
+            <p class="fw-semibold">New York</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <img src="images/Best-things-to-do-in-London-top-sights-and-attractions.jpg" class="img-fluid rounded mb-2" alt="London" />
+            <p class="fw-semibold">London</p>
+        </div>
+    </div>
+</div>
+
+<h3>Find a flight to a specifik destination</h3>
+
+<div class="container">
+    <!-- Formularen til at vælge både afrejse og retur-dato -->
+    <div class="form-container">
+        <label for="origin">From</label>
+        <input type="text" id="origin" @bind="origin" placeholder="e depature City" />
+
+        <label for="destination">Destination</label>
+        <input type="text" id="destination" @bind="destination" placeholder="Write the name of the destination City" />
+
+        <label for="departureDate">Departure Date</label>
+        <input type="date" id="departureDate" @bind="departureDate" />
+
+        <label for="returnDate">Return Date</label>
+        <input type="date" id="returnDate" @bind="returnDate" />
+
+        <button @onclick="SearchFlights">Search</button>
+    </div>
+
+    <!-- Resultater af søgningen -->
+    <div class="results-container">
+        <!-- Hvis flyvningerne ikke er fundet eller vi venter på data -->
+        @if (flights == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (flights.Count == 0)
+        {
+            <p>No flights found.</p>
+        }
+        else
+        {
+            <!-- Vis flyvninger i tabel -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Departure Airport</th>
+                        <th>Arrival Airport</th>
+                        <th>Departure Time</th>
+                        <th>Arrival Time</th>
+                        <th>Duration</th>
+                        <th>Price</th>
+                        <th>Vælg Tur/Retur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flight in flights)
+                    {
+                        <tr>
+                            <td>@flight.Outbound.DepartureAirport</td>
+                            <td>@flight.Outbound.ArrivalAirport</td>
+                            <td>@flight.Outbound.DepartureTime</td>
+                            <td>@flight.Outbound.ArrivalTime</td>
+                            <td>@flight.Outbound.Duration</td>
+                            <td>@flight.Outbound.Price</td>
+                            <!-- Kun én knap per rejse, som vælger både ud- og returflyvning -->
+                            <td><button @onclick="() => SelectFlight(flight)">Select Round Trip</button></td>
+                        </tr>
+                        <tr>
+                            <td>@flight.Inbound.DepartureAirport</td>
+                            <td>@flight.Inbound.ArrivalAirport</td>
+                            <td>@flight.Inbound.DepartureTime</td>
+                            <td>@flight.Inbound.ArrivalTime</td>
+                            <td>@flight.Inbound.Duration</td>
+                            <td>@flight.Inbound.Price</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <strong>Total Price: @flight.TotalPrice</strong>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <!-- Vist valgte fly-oplysninger -->
+    @if (selectedFlight != null)
+    {
+        <div class="selected-flight">
+            <h4>Choose Flight:</h4>
+            <p><strong>Outbound Flight:</strong></p>
+            <p>Departure Airport: @selectedFlight.Outbound.DepartureAirport</p>
+            <p>Arrival Airport: @selectedFlight.Outbound.ArrivalAirport</p>
+            <p>Departure Time: @selectedFlight.Outbound.DepartureTime</p>
+            <p>Arrival Time: @selectedFlight.Outbound.ArrivalTime</p>
+            <p>Duration: @selectedFlight.Outbound.Duration</p>
+            <p>Price: @selectedFlight.Outbound.Price</p>
+
+            <p><strong>Inbound Flight:</strong></p>
+            <p>Departure Airport: @selectedFlight.Inbound.DepartureAirport</p>
+            <p>Arrival Airport: @selectedFlight.Inbound.ArrivalAirport</p>
+            <p>Departure Time: @selectedFlight.Inbound.DepartureTime</p>
+            <p>Arrival Time: @selectedFlight.Inbound.ArrivalTime</p>
+            <p>Duration: @selectedFlight.Inbound.Duration</p>
+            <p>Price: @selectedFlight.Inbound.Price</p>
+
+            <p><strong>Total Price: @selectedFlight.TotalPrice</strong></p>
+
+            <!-- Fortsæt knap -->
+            <button @onclick="ContinueToHotelSelection">Continue</button>
+        </div>
+    }
+</div>
+
+<style>
+    
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    
+    .form-container {
+        width: 25%; 
+        padding: 10px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    
+    .results-container {
+        width: 75%; 
+        padding: 10px;
+    }
+
+   
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+        }
+
+    .selected-flight {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+</style>
+
+@code {
+    private string origin = "CPH";   // Default værdi, kan ændres af brugeren
+    private string destination = "NYC";   // Default værdi, kan ændres af brugeren
+    private DateTime departureDate = DateTime.Parse("2025-08-01");   // Default værdi, kan ændres af brugeren
+    private DateTime returnDate = DateTime.Parse("2025-08-15");      // Default værdi, kan ændres af brugeren
+
+    private List<RoundTripFlight> flights;
+    private RoundTripFlight selectedFlight;
+
+    private async Task SearchFlights()
+    {
+        string formattedDepartureDate = departureDate.ToString("yyyy-MM-dd");
+        string formattedReturnDate = returnDate.ToString("yyyy-MM-dd");
+
+        flights = await TravelApiService.GetFlightInfoAsync(origin, destination, formattedDepartureDate, formattedReturnDate);
+
+        // Gem søgningen i state
+        TravelPackageState.FlightOrigin = origin;
+        TravelPackageState.FlightDestination = destination;
+        TravelPackageState.FlightDepartureDate = departureDate;
+        TravelPackageState.FlightReturnDate = returnDate;
+        TravelPackageState.FlightSearchResults = flights;
+    }
+
+    private void SelectFlight(RoundTripFlight flight)
+    {
+        selectedFlight = flight;
+        TravelPackageState.SelectedFlight = selectedFlight; // Gem flyvningen i TravelPackageState
+    }
+
+    private void ContinueToHotelSelection()
+    {
+        // Naviger til hotel-siden
+        NavigationManager.NavigateTo("/AccommodationSearch");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (TravelPackageState.FlightSearchResults != null)
+        {
+            origin = TravelPackageState.FlightOrigin ?? "CPH";
+            destination = TravelPackageState.FlightDestination ?? "NYC";
+            departureDate = TravelPackageState.FlightDepartureDate ?? DateTime.Today;
+            returnDate = TravelPackageState.FlightReturnDate ?? DateTime.Today.AddDays(7);
+            flights = TravelPackageState.FlightSearchResults;
+        }
+        else
+        {
+            await SearchFlights(); // initial søgning, hvis ingen tidligere data
+        }
+    }
+}
+
