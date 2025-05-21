@@ -1,4 +1,4 @@
-using Gotorz2.Client.Services;
+using Gotorz.Client.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

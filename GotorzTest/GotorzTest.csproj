@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gotorz2\Gotorz2.Client\Gotorz2.Client.csproj" />
-    <ProjectReference Include="..\Gotorz2\Gotorz2\Gotorz2.csproj" />
+    <ProjectReference Include="..\Gotorz\Gotorz.Client\Gotorz.Client.csproj" />
+    <ProjectReference Include="..\Gotorz\Gotorz\Gotorz.csproj" />
   </ItemGroup>
 
   <ItemGroup>

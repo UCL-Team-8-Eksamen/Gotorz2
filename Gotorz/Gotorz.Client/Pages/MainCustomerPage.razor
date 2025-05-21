@@ -1,0 +1,327 @@
+﻿@page "/maincustomerpage"
+@rendermode InteractiveAuto
+@inject NavigationManager NavigationManager
+@inject Gotorz.Client.Services.TravelPackageState TravelPackageState
+
+<div class="main-layout">
+
+	<!-- Topmenuen (Navigation Bar) -->
+	<nav class="navbar">
+		<div class="nav-left">
+			<!-- Viser firmaets logo i venstre side -->
+			<img src="Images/Gotorzlogo.png" alt="Logo" class="logo" />
+		</div>
+
+		<!-- Alt indhold til højre for logoet -->
+		<div class="nav-right">
+			<div class="top-row">
+				<!-- Viser et lille jordklode-ikon -->
+				<img src="Images/earthicon.jpg" class="icon" />
+
+				<!-- Giver brugeren mulighed for at vælge sprog -->
+				<select class="lang-select">
+					<option>DK</option>
+					<option>EN</option>
+				</select>
+
+				<!-- Når man klikker på "Login", går man til en ny side med data (fetchdata) -->
+				<button class="login-btn" @onclick="NavigateToLoginPage">Login</button>
+			</div>
+
+			<div class="nav-center">
+				<!-- Klikbare links til forskellige sider på hjemmesiden -->
+				<a href="#">Travel Packages</a>
+				<a href="#">Travel Information</a>
+				<a href="#">Customer Service</a>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Stort bannerbillede øverst på siden -->
+	<header class="hero-banner">
+		<img src="Images/imagetravelheader.jpg" alt="Travel Banner" class="travel-banner" />
+		<div class="hero-text">
+			<!-- Et ikon ovenpå banneret med teksten/logoet "Travel Better" -->
+			<img src="Images/travelbettericon.png" alt="Travel Better" class="hero-logo" />
+		</div>
+	</header>
+
+	<!-- Afsnit der viser rejsemål -->
+	<section class="destinations">
+		<div class="destination-header">
+			<!-- Viser et ikon og en overskrift -->
+			<img src="Images/travelpackageicon.png" alt="Logo" class="travelpackageicon" />
+			<h1>Discover the hottest destinations</h1>
+		</div>
+
+		<div class="destination-grid">
+			<!-- Viser rejsepakker én efter én -->
+			@foreach (var package in TravelPackageState.PublishedPackages)
+			{
+				<div class="destination-card">
+					<!-- Viser navnet på rejsen -->
+					<h3>@package.TripTitle</h3>
+
+					<!-- Viser billede af rejsen, hvis der er et -->
+					@if (!string.IsNullOrEmpty(package.PictureUrl))
+					{
+						<img src="@package.PictureUrl" alt="Destination billede" style="width: 100%; height: 80%; border-radius: 6px; margin-bottom: 10px;" />
+					}
+
+					<!-- Viser beskrivelse af rejsen -->
+					<p>@package.Description</p>
+
+					<!-- Knappen viser rejsens pris -->
+					<button class="price-btn">From @package.TripTotalPrice.ToString("C")</button>
+				</div>
+			}
+		</div>
+	</section>
+
+	<!-- Fodsektion med sociale medier -->
+	<footer class="footer">
+		<h4>Gotorz Social Media</h4>
+		<div class="social-icons">
+			<!-- Ikoner for forskellige sociale medier -->
+			<i class="fab fa-facebook"></i>
+			<i class="fab fa-instagram"></i>
+		</div>
+	</footer>
+</div>
+
+
+
+<style>
+
+	/* Hele siden */
+	body {
+		margin: 0; /* Fjerner ekstra afstand rundt om hele siden */
+		font-family: Arial, sans-serif; /* Bestemmer skrifttypen på hele siden */
+		background-color: #f8f9fa; /* Lys baggrundsfarve */
+	}
+
+	html, body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+	}
+
+	.main-layout {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh; /* Gør at siden altid fylder hele højden */
+	}
+
+	.footer {
+		margin-top: auto; /* Skubber footer ned, hvis der er plads */
+	}
+
+
+	/* Øverste menulinje (navigation) */
+	.navbar {
+		display: flex; /* Gør det muligt at placere elementer ved siden af hinanden */
+		justify-content: space-between; /* Skubber venstre og højre indhold væk fra hinanden */
+		align-items: flex-start; /* Gør højre side klar til at vise indhold i kolonne */
+		padding: 1rem 2rem; /* Giver luft (afstand) rundt om indholdet */
+		background-color: #468ef9; /* Blå baggrundsfarve */
+		color: white; /* Hvid tekst */
+		flex-wrap: wrap; /* Gør menuen fleksibel på små skærme */
+	}
+
+	/* Firmaets logo i venstre side */
+	.nav-left .logo {
+		height: 80px; /* Størrelsen på logoet */
+	}
+
+	/* Links i midten af menuen */
+	.nav-center a {
+		color: white; /* Hvid tekstfarve */
+		text-decoration: underline; /* Fjerner understregning fra links */
+		margin: 0 1rem; /* Lidt afstand til højre og venstre for hvert link */
+		font-weight: bold; /* Gør teksten fed */
+	}
+
+	/* Højre side af menuen (sprogvalg + login + links) */
+	.nav-right {
+		display: flex; /* Indhold skal ligge under hinanden */
+		flex-direction: column; /* Viser som kolonne */
+		align-items: flex-end; /* Alt bliver højrestillet */
+		gap: 0.5rem; /* Lidt afstand mellem elementerne */
+	}
+
+	/* Øverste række i højre side (jordklode, sprog, login) */
+	.top-row {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem; /* Luft mellem elementerne */
+	}
+
+	/* Række med links under login */
+	.nav-center {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+
+	/* Lille ikon (jordkloden) */
+	.icon {
+		height: 40px;
+		width: 40px;
+		object-fit: cover; /* Gør billedet pænt tilpasset uden at strække det */
+		border-radius: 5px; /* Afrundede hjørner */
+		background-color: transparent; /* Ingen baggrundsfarve */
+		padding: 0;
+		border: none;
+	}
+
+	/* Samme stil for sprogvalg og login-knap */
+	.lang-select,
+	.login-btn {
+		height: 40px;
+		padding: 0 0.75rem;
+		border-radius: 5px;
+		display: flex;
+		align-items: center;
+		border: none;
+	}
+
+	/* Stil for login-knappen */
+	.login-btn {
+		background-color: white; /* Hvid baggrund */
+		color: #468ef9; /* Blå tekst */
+		cursor: pointer; /* Hånden vises når man holder musen over knappen */
+	}
+
+	/* HERO-banner (det store billede øverst på siden) */
+	.hero-banner {
+		position: relative; /* Gør det muligt at placere tekst ovenpå billedet */
+		height: 38vh; /* 50% af højden på skærmen */
+		margin-bottom: 1rem; /* Skaber afstand */
+	}
+
+		/* Selve billedet i HERO-banneret */
+		.hero-banner img {
+			width: 100%; /* Fylder hele bredden */
+			height: 100%;
+			object-fit: cover; /* Tilpasser billedet uden at strække det */
+			display: block;
+			margin-bottom: 0;
+		}
+
+	/* Teksten/logoet ovenpå billedet */
+	.hero-text {
+		position: absolute; /* Placeres ovenpå billedet */
+		top: 20px;
+		right: 20px;
+	}
+
+	/* Det lille logo ovenpå billedet */
+	.hero-logo {
+		width: 100%;
+		max-width: 300px; /* Maksimalt 300px bredt */
+		height: auto; /* Automatisk højde */
+	}
+
+	/* Afsnittet med rejsemål (destinationer) */
+	.destinations {
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		margin-top: 0;
+	}
+
+	/* Overskrift + ikon for destinationer */
+	.destination-header {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-top: 0;
+		margin-bottom: 0; /* Lidt afstand under headeren */
+	}
+
+	/* Ikon ved destinationsoverskriften */
+	.travelpackageicon {
+		height: 80px;
+		margin-bottom: 0.5rem; /* Lidt luft mellem ikon og tekst */
+	}
+
+	/* Overskrifter generelt */
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+		color: #1a3c76; /* Mørkegrå farve */
+		text-align: left;
+		font-weight: bold; /* Fed tekst */
+	}
+
+	/* Rutenet med destinationer (rejsekort) */
+	.destination-grid {
+		display: grid; /* Gridlayout */
+		grid-template-columns: repeat(3, 1fr); /* 3 kolonner af lige bredde */
+		width: 100%;
+		gap: 1.5rem; /* Lidt luft mellem kortene */
+		margin-top: 0;
+	}
+
+	/* Hvert rejsekort */
+	.destination-card {
+		background-color: white;
+		border-radius: 8px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Let skygge */
+		overflow: hidden;
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	/* Billede i rejsekortet */
+	.card-image {
+		width: 100%;
+		height: 150px;
+		object-fit: cover;
+		border-radius: 5px;
+	}
+
+	/* Knappen med prisen */
+	.price-btn {
+		margin-top: auto;
+		background-color: #007bff; /* Blå knap */
+		color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	/* Nederste del af siden (footer) */
+	.footer {
+		height: 112px; /* Matcher navbarens samlede højde */
+		background-color: #468ef9; /* Meget mørk baggrund */
+		color: white;
+		padding: 0;
+		text-align: center;
+	}
+
+	/* Sociale medier-ikoner */
+	.social-icons i {
+		font-size: 1.5rem;
+		margin: 0 0.5rem;
+		cursor: pointer; /* Viser hånd når man holder over ikonerne */
+	}
+
+</style>
+
+
+@code {
+
+	// Hændelse for login-knappen
+	private void NavigateToLoginPage()
+	{
+		NavigationManager.NavigateTo("/Account/Login");
+	}
+
+
+}

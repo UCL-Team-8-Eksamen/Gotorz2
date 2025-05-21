@@ -1,8 +1,8 @@
 using Bunit;
 using Xunit;
-using Gotorz2.Components.Pages;
+using Gotorz.Components.Pages;
 using Microsoft.AspNetCore.Components;
-using Gotorz2.Client.Pages;
+using Gotorz.Client.Pages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace TestProject1
