@@ -3,6 +3,9 @@
 @code {
     protected override void OnInitialized()
     {
+        //Navigerer (omdirigerer) brugeren til login-siden
+        //I stedet for at vise indholdet, omdirigerer vi brugeren til login-siden og husker, hvor de kom fra, så de kan komme tilbage bagefter.
+        // Bruge den som del af en beskyttet side, hvor vi evt. kombinerer den med autorisationslogik, f.eks. [Authorize] i en Razor Component
         NavigationManager.NavigateTo($"Account/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}", forceLoad: true);
     }
 }

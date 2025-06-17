@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 #nullable disable
-
+//Opgave og ansvar: Denne migration opretter de nødvendige tabeller og relationer for ASP.NET Identity i databasen.
+//At oprette hele databasen til Identity (brugere, roller, claims, osv.).
+//Dette er en del af migrationssystemet i Entity Framework Core, der holder styr på ændringer i databasens struktur.
+//Det er altså første migration, der bygger grundstrukturen til brugerstyring i din app (som login, roller, adgangsrettigheder).
 namespace Gotorz.Migrations
 {
     /// <inheritdoc />

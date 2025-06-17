@@ -1,5 +1,7 @@
 ﻿namespace Gotorz.Client.Models
 {
+
+    //Klassen FlightInfo har ansvaret for at repræsentere information om én enkelt flyrejse – altså enten en udrejse eller en hjemrejse.
     public class FlightInfo
     {
         public string DepartureAirport { get; set; } = string.Empty;

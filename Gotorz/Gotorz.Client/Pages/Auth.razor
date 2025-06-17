@@ -1,14 +1,23 @@
 ﻿@page "/auth"
+@* Denne side bliver vist, når brugeren går til URL'en "/auth" *@
 
 @using Microsoft.AspNetCore.Authorization
+@* Importerer namespace, så vi kan bruge [Authorize] attribut og AuthorizeView *@
 
 @attribute [Authorize]
+@* Gør siden beskyttet: kun autentificerede brugere kan se siden *@
+
 @rendermode InteractiveAuto
+@* Gør komponenten interaktiv – Blazor vælger passende render-mode automatisk *@
 
 <PageTitle>Auth</PageTitle>
+@* Sætter browserfanens titel til "Auth" *@
 
 <h1>You are authenticated</h1>
+@* Viser overskrift om, at brugeren er logget ind *@
 
 <AuthorizeView>
+    @* Viser indhold kun hvis brugeren er logget ind *@
     Hello @context.User.Identity?.Name!
+    @* Viser brugerens navn, fx "Hello Husein!" *@
 </AuthorizeView>

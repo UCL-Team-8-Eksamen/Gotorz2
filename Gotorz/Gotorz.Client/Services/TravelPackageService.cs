@@ -25,4 +25,10 @@ public class TravelPackageService
         // Hvis serveren f.eks. svarer med 400 eller 500, udløses en fejl
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task<List<TravelPackage>> GetAllTravelPackagesAsync()
+    {
+        return await _http.GetFromJsonAsync<List<TravelPackage>>("api/TravelPackages");
+    }
+
 }
